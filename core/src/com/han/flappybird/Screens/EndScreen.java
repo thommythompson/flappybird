@@ -12,64 +12,68 @@ public class EndScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
 
-    public EndScreen(FlappyBird game){
+    private Texture gameOverImg;
 
+    public EndScreen(FlappyBird game){
         this.game = game;
-        gameCam = new OrthographicCamera();
-        gamePort = new StretchViewport(FlappyBird.WIDTH, FlappyBird.HEIGHT, gameCam);
     }
 
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-        
+        gameCam = new OrthographicCamera();
+        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
+        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
+        gameCam.update();
+
+        gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
+        gamePort.apply();
+
+        gameOverImg = new Texture("sprites/gameover.png");
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta){
 
         // OPENGL set background color
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        // Render gameCam projecten only
+        // Render gameCam projection only
         game.batch.setProjectionMatrix(gameCam.combined);
 
         // Catch user input
-        if(Gdx.input.isTouched()){
-            game.setScreen(new StartScreen(game));
-        }
+        if(Gdx.input.isTouched()) game.setScreen(new PlayScreen(game));
+
+        // Start batch
+        game.batch.begin();
+        game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);
+        game.batch.draw(gameOverImg, FlappyBird.CAM_WIDTH / 4, FlappyBird.CAM_HEIGHT / 4, FlappyBird.CAM_WIDTH / 2, FlappyBird.CAM_HEIGHT / 10);
+        game.batch.end();
     }
 
     @Override
     public void resize(int width, int height) {
         
-        // Adjust viewport
         gamePort.update(width, height);
+        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
+        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
+        gameCam.update();
     }
 
     @Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
         
+        // Clear textures
+        gameOverImg.dispose();
     }
     
 }

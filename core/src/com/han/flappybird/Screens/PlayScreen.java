@@ -9,16 +9,14 @@ import com.han.flappybird.Entities.*;
 
 public class PlayScreen implements Screen {
 
-    public static final int CAM_WIDTH = FlappyBird.WIDTH / 2; // default: 240
-    public static final int CAM_HEIGHT = FlappyBird.HEIGHT / 2; // default: 400
     private static final int BIRD_LEFT_OFFSET = 60;
 
     private FlappyBird game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Bird bird;
-    private float timeElapsed;
     private World world;
+    private boolean gameOver = false;
 
     public PlayScreen(FlappyBird game){
         this.game = game;
@@ -27,10 +25,15 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(CAM_WIDTH, CAM_HEIGHT, gameCam);
+        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
+        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
+        gameCam.update();
+
+        gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
         gamePort.apply();
 
-        bird = new Bird(0 - CAM_WIDTH + BIRD_LEFT_OFFSET, 0 - (CAM_HEIGHT / 3));
+        // TODO 
+        bird = new Bird(BIRD_LEFT_OFFSET, 0 + (FlappyBird.CAM_HEIGHT / 3 * 2));
         world = new World();
     }
 
@@ -49,24 +52,32 @@ public class PlayScreen implements Screen {
             bird.jump();
         }
 
-        if(world.hasCollided(bird.getBounds())){
-
+        if(world.colissionDetected(bird.getBounds())){
+            System.console().writer().println("World detected collision");
+            gameOver = true;
         }
-
-        timeElapsed =+ delta;
+        if(bird.colissionDetected()){
+            System.console().writer().println("Bird detected collision");
+            gameOver = true;
+        } 
+        if(gameOver){
+            try {
+                Thread.sleep(1000);
+            } catch(InterruptedException e) {
+                System.out.println("got interrupted!");
+            }
+            game.setScreen(new EndScreen(game));
+        }
 
         bird.updatePosition(delta);
         world.updateWorld(delta);
-
-        gameCam.position.x = BIRD_LEFT_OFFSET + bird.getPosition().x;
-        gameCam.position.y = 0;
-        gameCam.update();
-
+        
         // Start batch
         game.batch.begin();
         game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);
-        game.batch.draw(bird.getKeyFrame(timeElapsed), bird.getPosition().x, bird.getPosition().y);
-        world.addTextures(game.batch);
+        // game.batch.draw(bird.getKeyFrame(timeElapsed), bird.getPosition().x, bird.getPosition().y);
+        bird.draw(game.batch, delta);
+        world.draw(game.batch);
         game.batch.end();
     }
 
@@ -74,29 +85,22 @@ public class PlayScreen implements Screen {
     public void resize(int width, int height) {
 
         gamePort.update(width, height);
-        gameCam.position.set(BIRD_LEFT_OFFSET + bird.getPosition().x, 0, 0);
-        gameCam.translate(FlappyBird.WIDTH / 2, FlappyBird.HEIGHT / 2);
+        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
+        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
+        gameCam.update();
     }
 
     @Override
-    public void pause() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void pause() {}
 
     @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void resume() {}
 
     @Override
-    public void hide() {
-        // TODO Auto-generated method stub
-        
-    }
+    public void hide() {}
 
     @Override
     public void dispose() {
+        // TODO dispose textures
     }
 }

@@ -1,89 +1,56 @@
 package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.han.flappybird.Screens.PlayScreen;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Random;
+import com.han.flappybird.FlappyBird;
 
 public class World {
-    private static final int WORLD_SPEED = 100;
-    private static final int GROUND_WIDTH = PlayScreen.CAM_WIDTH;
-    public static final int GROUND_HEIGHT = PlayScreen.CAM_WIDTH / 4;
-    private static final int TUBE_COUNT = 4;
-    private static final int TUBE_SPACING = 140;
-    private static final int TUBE_HEIGT = 300;
-    private static final int TUBE_WIDTH = 50;
-    private static final int TUBE_FLUCATUATION = 200 - GROUND_HEIGHT;
-    private static final int TUBE_GAP = 80;
-    private static final int TUBE_X_MIN = 0 - (PlayScreen.CAM_HEIGHT / 2) + GROUND_HEIGHT - TUBE_HEIGT + 50;
+    public static final float TUBE_COUNT = 4;
+    public static final float TUBE_SPACING = 120 + Tube.MEASUREMENTS.x;
+    private static final float WORLD_SPEED = 100;
 
-    private Array<Object> tubeObjects;
-    private Array<Object> groundObjects;
+    private Array<TubeSet> tubeSets;
+    private Array<Base> baseObjects;
 
     public World(){
-        tubeObjects = new Array<Object>();
-        groundObjects = new Array<Object>();
+        tubeSets = new Array<TubeSet>();
+        baseObjects = new Array<Base>();
 
-        for(int i = 1; i <= TUBE_COUNT; i++){
-
-            Random random = new Random();
-            int randomAdditionalBaseHeight = random.nextInt(TUBE_FLUCATUATION);
-
-            tubeObjects.add(new Object(
-                (TUBE_SPACING * i) - PlayScreen.CAM_WIDTH, TUBE_X_MIN + randomAdditionalBaseHeight, // position
-                TUBE_WIDTH, TUBE_HEIGT, // measurements
-                ObjectType.BottomTube
-            ));
-            tubeObjects.add(new Object(
-                (TUBE_SPACING * i) - PlayScreen.CAM_WIDTH, TUBE_X_MIN + TUBE_GAP + randomAdditionalBaseHeight + TUBE_HEIGT, // position
-                TUBE_WIDTH, TUBE_HEIGT, // measurements
-                ObjectType.TopTube
-            ));
-        }
-
-        for(int i = 0; i < 2; i++){
-            groundObjects.add(new Object(
-                (GROUND_WIDTH * i) - PlayScreen.CAM_WIDTH, 0 - (PlayScreen.CAM_HEIGHT / 2),
-                GROUND_WIDTH, GROUND_HEIGHT,
-                ObjectType.Base
-            ));
-        }
+        for(int i = 1; i <= TUBE_COUNT; i++)
+            tubeSets.add(new TubeSet(TUBE_SPACING * i));
+        for(int i = 0; i < 2; i++)
+            baseObjects.add(new Base(i * FlappyBird.CAM_WIDTH, 0));
     }
 
     public void updateWorld(float delta){
 
-        for(int i = 0; i < tubeObjects.size; i++){
-            Object object = tubeObjects.get(i);
-
-            object.setPosition(new Vector2(object.getPosition().x - (WORLD_SPEED * delta), object.getPosition().y));
-            if(object.getPosition().x == (0 - PlayScreen.CAM_WIDTH - TUBE_WIDTH) && object.getType() == ObjectType.BottomTube){
-                Object object2 = tubeObjects.get(i + 1);
-                
-                Random random = new Random();
-                int randomAdditionalBaseHeight = random.nextInt(TUBE_FLUCATUATION);
-
-                object.setPosition(new Vector2(object.getPosition().x - (WORLD_SPEED * delta), object.getPosition().y));
-                object2.setPosition(new Vector2(object.getPosition().x - (WORLD_SPEED * delta), object.getPosition().y));
-            }
+        for(TubeSet tubeSet : tubeSets){
+            tubeSet.addPosition(new Vector2(-(delta * WORLD_SPEED), 0));
+            if(tubeSet.isOffscreen()) tubeSet.resetPosition();
         }
-        
-    }
 
-    public void addTextures(SpriteBatch batch){
-
-        for(Object object : tubeObjects){
-            batch.draw(object.getTexture(), object.getPosition().x, object.getPosition().y, object.getMeasurements().x, object.getMeasurements().y);
-        }
-        for(Object object : groundObjects){
-            batch.draw(object.getTexture(), object.getPosition().x, object.getPosition().y, object.getMeasurements().x, object.getMeasurements().y);
+        for(Base baseObject : baseObjects){
+            baseObject.addPosition(new Vector2(-(delta * WORLD_SPEED), 0));
+            if(baseObject.isOffscreen()) baseObject.resetPosition();
         }
     }
 
-    public boolean hasCollided(Rectangle bird){
+    public void draw(SpriteBatch batch){
+        for(TubeSet tubeSet : tubeSets) tubeSet.draw(batch);
+        for(Base baseObject : baseObjects) baseObject.draw(batch);
+    }
+
+    public boolean colissionDetected(Rectangle bounds){
+
+        for(TubeSet tubeSet : tubeSets) if(tubeSet.colissionDetected(bounds)) return true;
         return false;
     }
 
+    public void dispose(){
+        // TODO implement custom dispose of textures
+    }
 }
