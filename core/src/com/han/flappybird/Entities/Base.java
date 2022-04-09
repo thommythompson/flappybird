@@ -1,9 +1,9 @@
 package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.han.flappybird.FlappyBird;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Base {
     public static final Vector2 MEASUREMENTS = new Vector2(FlappyBird.CAM_WIDTH, FlappyBird.CAM_WIDTH / 4);

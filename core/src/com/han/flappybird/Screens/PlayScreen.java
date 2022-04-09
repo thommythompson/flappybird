@@ -3,10 +3,13 @@ package com.han.flappybird.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.han.flappybird.FlappyBird;
-import com.han.flappybird.Entities.*;
+import com.han.flappybird.Entities.Bird;
+import com.han.flappybird.Entities.World;
 
 public class PlayScreen implements Screen {
 
@@ -42,26 +45,22 @@ public class PlayScreen implements Screen {
     @Override
     public void render(float delta) {
 
-        // OPENGL set background color
-        Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(.25f, .25f, .25f, 1); // OpenGL set background color
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // OpenGL apply backgtround color
 
-        // Render gameCam projecten only
-        game.batch.setProjectionMatrix(gameCam.combined);
-
-        // Catch user input
-        if(Gdx.input.isTouched()) bird.jump();
+        game.batch.setProjectionMatrix(gameCam.combined); // Render gameCam projection only
+        
+        if(Gdx.input.isTouched()) bird.jump(); // Catch user input
 
         bird.updatePosition(delta);
-        world.updateWorld(delta, bird);
+        world.updateWorld(delta, bird); // needs bird input to determine weheter the bird has past an obstacle
 
         if(world.colissionDetected(bird.getBounds()) || bird.colissionDetected()){
-            System.console().writer().println("Detected collision");
-            die.play();
+            die.play(); // play sound
             try {
                 Thread.sleep(1000);
             } catch(InterruptedException e) {
-                System.out.println("Anticipated: gamover");
+                System.out.println("Interruption occured!");
             }
             game.setScreen(new EndScreen(game));
         }
@@ -69,9 +68,8 @@ public class PlayScreen implements Screen {
         // Start batch
         game.batch.begin();
         game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);
-        // game.batch.draw(bird.getKeyFrame(timeElapsed), bird.getPosition().x, bird.getPosition().y);
-        bird.draw(game.batch, delta);
-        world.draw(game.batch);
+        bird.draw(game.batch, delta); // delta is used to determine which animation frame to draw
+        world.draw(game.batch);  
         game.batch.end();
     }
 
@@ -95,6 +93,6 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        // TODO dispose textures
+        // TODO dispose textures & sounds
     }
 }

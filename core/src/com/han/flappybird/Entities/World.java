@@ -2,9 +2,8 @@ package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Vector2;
-
+import com.badlogic.gdx.utils.Array;
 import com.han.flappybird.FlappyBird;
 
 public class World {
@@ -19,7 +18,7 @@ public class World {
     public World(){
         tubeSets = new Array<TubeSet>();
         baseObjects = new Array<Base>();
-        score = new Score(FlappyBird.CAM_WIDTH / 2, FlappyBird.CAM_HEIGHT / 4 * 3);
+        score = new Score((FlappyBird.CAM_WIDTH / 2) - (Score.SCORE_WIDTH / 2), FlappyBird.CAM_HEIGHT / 4 * 3);
 
         for(int i = 2; i <= (TUBE_COUNT + 1); i++)
             tubeSets.add(new TubeSet(TUBE_SPACING * i));

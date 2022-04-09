@@ -1,12 +1,12 @@
 package com.han.flappybird.Entities;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.han.flappybird.FlappyBird;
-import com.badlogic.gdx.math.Rectangle;
-
-import java.util.Random;
 
 public class TubeSet {
     private static final float TUBE_GAP = 100;
