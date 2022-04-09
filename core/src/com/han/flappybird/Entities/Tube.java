@@ -32,8 +32,7 @@ public class Tube {
 
     public void setPosition(Vector2 position){
         this.position = position;
-        this.bounds.x = position.x;
-        this.bounds.y = position.y;
+        this.bounds.setPosition(position);
     }
 
     public void addPosition(Vector2 position){

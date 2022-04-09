@@ -2,6 +2,7 @@ package com.han.flappybird.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.utils.viewport.*;
 import com.han.flappybird.FlappyBird;
@@ -16,7 +17,7 @@ public class PlayScreen implements Screen {
     private Viewport gamePort;
     private Bird bird;
     private World world;
-    private boolean gameOver = false;
+    private Sound die;
 
     public PlayScreen(FlappyBird game){
         this.game = game;
@@ -29,10 +30,11 @@ public class PlayScreen implements Screen {
         gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
         gameCam.update();
 
+        die = Gdx.audio.newSound(Gdx.files.internal("audio/die.ogg"));
+
         gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
         gamePort.apply();
 
-        // TODO 
         bird = new Bird(BIRD_LEFT_OFFSET, 0 + (FlappyBird.CAM_HEIGHT / 3 * 2));
         world = new World();
     }
@@ -48,30 +50,22 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
 
         // Catch user input
-        if(Gdx.input.isTouched()){
-            bird.jump();
-        }
+        if(Gdx.input.isTouched()) bird.jump();
 
-        if(world.colissionDetected(bird.getBounds())){
-            System.console().writer().println("World detected collision");
-            gameOver = true;
-        }
-        if(bird.colissionDetected()){
-            System.console().writer().println("Bird detected collision");
-            gameOver = true;
-        } 
-        if(gameOver){
+        bird.updatePosition(delta);
+        world.updateWorld(delta, bird);
+
+        if(world.colissionDetected(bird.getBounds()) || bird.colissionDetected()){
+            System.console().writer().println("Detected collision");
+            die.play();
             try {
                 Thread.sleep(1000);
             } catch(InterruptedException e) {
-                System.out.println("got interrupted!");
+                System.out.println("Anticipated: gamover");
             }
             game.setScreen(new EndScreen(game));
         }
 
-        bird.updatePosition(delta);
-        world.updateWorld(delta);
-        
         // Start batch
         game.batch.begin();
         game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.han.flappybird.FlappyBird;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.Random;
@@ -14,6 +13,7 @@ public class TubeSet {
     private static final float TOPTUBE_OFFSET = 20;
     private static final float TOPTUBE_OFFSET_BOTTOM = Base.MEASUREMENTS.y + TOPTUBE_OFFSET + TUBE_GAP;
     private static final float TOPTUBE_FLUCATUATION = FlappyBird.CAM_HEIGHT - TOPTUBE_OFFSET_BOTTOM - TOPTUBE_OFFSET;
+    public boolean passedByBird;
     
     private float yPosOffset;
     public Array<Tube> tubes;
@@ -24,6 +24,8 @@ public class TubeSet {
         tubes = new Array<Tube>();
         tubes.add(new Tube(xPos, yPosOffset, TubeType.TopTube));
         tubes.add(new Tube(xPos, yPosOffset - Tube.MEASUREMENTS.y - TUBE_GAP, TubeType.BottomTube));
+
+        passedByBird = false;
     }
 
     private void updateyPosOffset(){
@@ -52,10 +54,20 @@ public class TubeSet {
     public void resetPosition(){
         updateyPosOffset();
         setPosition(new Vector2(tubes.get(0).getPosition().x + (World.TUBE_COUNT * World.TUBE_SPACING), yPosOffset));
+
+        passedByBird = false;
     }
 
     public boolean colissionDetected(Rectangle bounds){
         for(Tube tube : tubes) if(tube.colissionDetected(bounds)) return true;
+        return false;
+    }
+
+    public boolean birdPastTube(Vector2 birdPosition){
+        if((birdPosition.x + Bird.MEASUREMENTS.x) >= (tubes.get(0).getPosition().x + Tube.MEASUREMENTS.x) && !passedByBird){
+            passedByBird = true;
+            return true;
+        }
         return false;
     }
 }

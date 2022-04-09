@@ -1,7 +1,6 @@
 package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.math.Vector2;
@@ -15,22 +14,25 @@ public class World {
 
     private Array<TubeSet> tubeSets;
     private Array<Base> baseObjects;
+    private Score score;
 
     public World(){
         tubeSets = new Array<TubeSet>();
         baseObjects = new Array<Base>();
+        score = new Score(FlappyBird.CAM_WIDTH / 2, FlappyBird.CAM_HEIGHT / 4 * 3);
 
-        for(int i = 1; i <= TUBE_COUNT; i++)
+        for(int i = 2; i <= (TUBE_COUNT + 1); i++)
             tubeSets.add(new TubeSet(TUBE_SPACING * i));
         for(int i = 0; i < 2; i++)
             baseObjects.add(new Base(i * FlappyBird.CAM_WIDTH, 0));
     }
 
-    public void updateWorld(float delta){
+    public void updateWorld(float delta, Bird bird){
 
         for(TubeSet tubeSet : tubeSets){
             tubeSet.addPosition(new Vector2(-(delta * WORLD_SPEED), 0));
             if(tubeSet.isOffscreen()) tubeSet.resetPosition();
+            if(tubeSet.birdPastTube(bird.getPosition())) score.upScore();
         }
 
         for(Base baseObject : baseObjects){
@@ -42,6 +44,7 @@ public class World {
     public void draw(SpriteBatch batch){
         for(TubeSet tubeSet : tubeSets) tubeSet.draw(batch);
         for(Base baseObject : baseObjects) baseObject.draw(batch);
+        score.draw(batch);
     }
 
     public boolean colissionDetected(Rectangle bounds){

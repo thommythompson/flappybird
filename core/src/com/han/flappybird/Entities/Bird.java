@@ -9,34 +9,40 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.han.flappybird.FlappyBird;
 
 public class Bird{
-    private static final Vector2 MEASUREMENTS = new Vector2(30,20);
-    private static final int GRAVITY = -12;
+    public static final Vector2 MEASUREMENTS = new Vector2(30,20);
     private Vector2 position;
     private Vector2 velocity;
+    private Vector2 acceleration;
     private Animation<Texture> animation;
     private Array<Texture> textures;
     private Rectangle bounds;
     private float timeElapsed;
+    private Sound wing;
 
     public Bird(int posX, int posY){
         position = new Vector2(posX, posY);
         velocity = new Vector2(0, 0);
+        acceleration = new Vector2(0, -600);
+        wing = Gdx.audio.newSound(Gdx.files.internal("audio/wing.ogg"));
+
         updateAnimation();
 
         bounds = new Rectangle(posX, posY, MEASUREMENTS.x, MEASUREMENTS.y);
     }
 
-    public Vector2 getPosition(){
-        return this.position;
-    }
-
     public void draw(SpriteBatch batch, float delta){
         timeElapsed += delta;
 
-        batch.draw(animation.getKeyFrame(timeElapsed), getPosition().x, getPosition().y, MEASUREMENTS.x, MEASUREMENTS.y);
+        batch.draw(animation.getKeyFrame(timeElapsed), position.x, position.y, MEASUREMENTS.x, MEASUREMENTS.y);
+    }
+
+    public Vector2 getPosition(){
+        return position;
     }
 
     public Rectangle getBounds(){
@@ -72,15 +78,13 @@ public class Bird{
     }
 
     public void updatePosition(float delta){
-        velocity.add(0, GRAVITY);
-        velocity.scl(delta);
-        position.add(0, velocity.y);
-        bounds.y = position.y + velocity.y;
-
+        velocity.add(acceleration.cpy().scl(delta));
+        if (velocity.y > 180) velocity.y = 180;
+        position.add(velocity.cpy().scl(delta));
+        bounds.setPosition(position);
+        
         if(position.y >= FlappyBird.CAM_HEIGHT - textures.get(0).getHeight()) position.y = FlappyBird.CAM_HEIGHT - textures.get(0).getHeight();
         else if(position.y <= 0  + Base.MEASUREMENTS.y) position.y = 0  + Base.MEASUREMENTS.y;
-
-        velocity.scl(1 / delta);
     }
 
     public boolean colissionDetected(){
@@ -90,6 +94,7 @@ public class Bird{
     }
 
     public void jump(){
-        velocity.y =+ 150;
+        velocity.y = 140;
+        wing.play();
     }
 }
