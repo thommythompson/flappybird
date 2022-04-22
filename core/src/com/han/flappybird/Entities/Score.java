@@ -32,4 +32,8 @@ public class Score{
     public void draw(SpriteBatch batch){
         generator.generateFont(parameter).draw(batch, "" + score, position.x, position.y);
     }
+
+    public void dispose(){
+        generator.dispose();
+    }
 }

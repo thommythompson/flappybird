@@ -24,7 +24,7 @@ public class World {
         
         if(jumpBird) bird.jump();
         bird.update(delta);
-        
+
         for(WorldObject worldObject : WorldObstacle.getObjects()) worldObject.update(delta);
 
         for(TubeSet tubeSet : TubeSet.getObjects()){
@@ -50,5 +50,6 @@ public class World {
         WorldObject.disposeObjects();
         WorldObstacle.disposeObjects();
         TubeSet.disposeObjects();
+        score.dispose();
     }
 }
