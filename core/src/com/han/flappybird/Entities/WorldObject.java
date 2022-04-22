@@ -6,6 +6,14 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+/**
+* @version 1
+* This class is used to keep track of all the objects within the game (bird, base & tubes).
+*
+* The rectangle LibGDX type is used to track the position (x, y) and the height and width of the object. It has build in collision detection using the overlaps method.
+* This information is then used to draw the texture to the spritebatch.
+* A static array is used to keep track of all the created objects.
+*/
 public abstract class WorldObject {
     protected Texture texture;
     protected Rectangle bounds;

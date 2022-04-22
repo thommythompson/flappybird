@@ -7,6 +7,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.han.flappybird.Screens.StartScreen;
 
+/**
+* @version 1
+* This is main class/entry point. 
+*
+* It creates the SpriteBatch that get's rendered, sets the background image depending on if it's day or night & launches the start screen. 
+*/
+
 public class FlappyBird extends Game {
 
 	public static final String WINDOW_TITLE = "Flappy Bird";
@@ -26,22 +33,19 @@ public class FlappyBird extends Game {
 		setScreen(new StartScreen(this));
 	}
 
-	public void updateBackground(){
-
-		// Load speicifc background depending on if it's day or night
+	private void updateBackground(){
 		int currentHour = LocalTime.now().getHour();
         if(currentHour >= 8 && currentHour < 20) backgroundImg = new Texture("sprites/background-day.png");
         else backgroundImg = new Texture("sprites/background-night.png");
 	}
 
+	/** Getter for the background texture */ 
 	public Texture getBackground(){
 		return backgroundImg;
 	}
 
 	@Override
 	public void render () {
-
-		// Delegates render method to screen
 		super.render();
 	}
 }

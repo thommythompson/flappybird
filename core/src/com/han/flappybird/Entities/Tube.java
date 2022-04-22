@@ -3,8 +3,11 @@ package com.han.flappybird.Entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+* @version 1
+* The constructer in this class determines which texture is used based upon the provided tube type. 
+*/
 public class Tube extends WorldObstacle{
-
     public static final Vector2 MEASUREMENTS = new Vector2(50, 300);
 
     Tube(float xPos, float yPos, float width, float height, TubeType type){

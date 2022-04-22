@@ -3,6 +3,10 @@ package com.han.flappybird.Entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.han.flappybird.FlappyBird;
 
+/**
+* @version 1
+* The world class creates and manages all the world objects.
+*/
 public class World {
     public static final float WORLD_SPEED = 100;
     public static final float TUBE_COUNT = 4;

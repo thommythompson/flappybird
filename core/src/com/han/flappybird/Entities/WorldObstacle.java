@@ -2,8 +2,14 @@ package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.utils.Array;
 
-public abstract class WorldObstacle extends WorldObject{
+/**
+* @version 1
+* This class extends the worldobject array.
 
+* It's used to create objects and has no addition value but tracking the obstacles (all objects except the bird).
+*/
+
+public abstract class WorldObstacle extends WorldObject{
     private static Array<WorldObject> objects = new Array<WorldObject>();
 
     WorldObstacle(float xPos, float yPos, float width, float height) {

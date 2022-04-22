@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.han.flappybird.FlappyBird;
 
+/**
+* @version 1
+* This class represents the Base object. 
+*
+* The class also contains the methods to reset the position of the object in case the object is completly out of the ortocam.
+*/
 public class Base extends WorldObstacle{
     public static final Vector2 MEASUREMENTS = new Vector2(FlappyBird.CAM_WIDTH, FlappyBird.CAM_WIDTH / 4);
 

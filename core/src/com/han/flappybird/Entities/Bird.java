@@ -10,6 +10,10 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+/**
+* @version 1
+* This class is based upon the worlobject class and represents the bird object.
+*/
 public class Bird extends WorldObject{
     public static final Vector2 MEASUREMENTS = new Vector2(30,20);
     private Vector2 velocity;
@@ -28,6 +32,9 @@ public class Bird extends WorldObject{
         setAnimation();
     }
 
+    /** 
+     * Updates the texture with a keyframe from the animation based upon the elapsed time & updates the bird position.
+     */
     @Override
     public void update(float delta){
         timeElapsed += delta;
@@ -35,6 +42,10 @@ public class Bird extends WorldObject{
         updatePosition(delta);
     }
 
+    /** 
+     * Chooses a random bird color and loads the associated textures in a Texture array.
+     * The texture array is used to create a LibGDX animation.
+     */
     private void setAnimation(){
 
         Random random = new Random();
@@ -63,6 +74,9 @@ public class Bird extends WorldObject{
         animation = new Animation<Texture>(0.5f, textures, PlayMode.LOOP);
     }
 
+    /** 
+     * Updates the y position.
+     */    
     private void updatePosition(float delta){
         velocity.add(acceleration.cpy().scl(delta));
         if (velocity.y > 180) velocity.y = 180;
@@ -70,6 +84,9 @@ public class Bird extends WorldObject{
         bounds.setPosition(position);
     }
 
+    /** 
+     * Increases the y position.
+     */
     public void jump(){
         velocity.y = 140;
         wing.play();

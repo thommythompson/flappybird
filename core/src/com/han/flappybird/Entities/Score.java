@@ -6,6 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
+/**
+* @version 1
+* This class tracks an integer and contains the methods to draw it to the screen and to up the integer by one.
+*/
 public class Score{
     public static final int SCORE_WIDTH = 30;
     private int score;

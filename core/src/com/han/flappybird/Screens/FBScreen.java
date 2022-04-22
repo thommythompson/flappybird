@@ -8,6 +8,10 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.han.flappybird.FlappyBird;
 
+/**
+* @version 1
+* This abstract class includes the ortocam and viewport used in all screens. 
+*/
 public abstract class FBScreen implements Screen {
     protected FlappyBird game;
     protected OrthographicCamera gameCam;
@@ -17,6 +21,11 @@ public abstract class FBScreen implements Screen {
         this.game = game;
     }
 
+    /**
+     * The show method runs once when the screen is first opened.
+     * It created the ortocam and resets it's position so that 0, 0 is in the left bottom corner.
+     * This cam is then applied to the newly created viewport.
+     */
     @Override
     public void show() {
         gameCam = new OrthographicCamera();
@@ -28,17 +37,21 @@ public abstract class FBScreen implements Screen {
         gamePort.apply();
     }
 
+    /**
+     * The render method is callsed every time the screen gets rendered.
+     * glClear command's clear the screen from it's previous render.
+     * At tlast the ortocam get's applied to the spritebatch.
+     */
     @Override
     public void render(float delta){
 
-        // OPENGL set background color
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        // Render gameCam projection only
         game.batch.setProjectionMatrix(gameCam.combined);
     }
 
+    /** The resize is called when the user resizes the window, this method ensures the dimensions of the viewport and ortocam get changed accordingly. */
     @Override
     public void resize(int width, int height) {
         
