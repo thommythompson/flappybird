@@ -7,49 +7,36 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.han.flappybird.FlappyBird;
 
-public class Bird{
+public class Bird extends WorldObject{
     public static final Vector2 MEASUREMENTS = new Vector2(30,20);
-    private Vector2 position;
     private Vector2 velocity;
     private Vector2 acceleration;
     private Animation<Texture> animation;
     private Array<Texture> textures;
-    private Rectangle bounds;
     private float timeElapsed;
     private Sound wing;
 
-    public Bird(int posX, int posY){
-        position = new Vector2(posX, posY);
+    public Bird(float xPos, float yPos, float width, float height){
+        super(xPos, yPos, MEASUREMENTS.x, MEASUREMENTS.y);
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, -600);
         wing = Gdx.audio.newSound(Gdx.files.internal("audio/wing.ogg"));
-
-        updateAnimation();
-
-        bounds = new Rectangle(posX, posY, MEASUREMENTS.x, MEASUREMENTS.y);
+        
+        setAnimation();
     }
 
-    public void draw(SpriteBatch batch, float delta){
+    @Override
+    public void update(float delta){
         timeElapsed += delta;
-
-        batch.draw(animation.getKeyFrame(timeElapsed), position.x, position.y, MEASUREMENTS.x, MEASUREMENTS.y);
+        texture = animation.getKeyFrame(timeElapsed);
+        updatePosition(delta);
     }
 
-    public Vector2 getPosition(){
-        return position;
-    }
-
-    public Rectangle getBounds(){
-        return bounds;
-    }
-
-    private void updateAnimation(){
+    private void setAnimation(){
 
         Random random = new Random();
         int birdNr = random.nextInt(3) + 1;
@@ -77,20 +64,14 @@ public class Bird{
         animation = new Animation<Texture>(0.5f, textures, PlayMode.LOOP);
     }
 
-    public void updatePosition(float delta){
+    private void updatePosition(float delta){
         velocity.add(acceleration.cpy().scl(delta));
         if (velocity.y > 180) velocity.y = 180;
-        position.add(velocity.cpy().scl(delta));
+        Vector2 position = getPosition().add(velocity.cpy().scl(delta));
         bounds.setPosition(position);
         
-        if(position.y >= FlappyBird.CAM_HEIGHT - textures.get(0).getHeight()) position.y = FlappyBird.CAM_HEIGHT - textures.get(0).getHeight();
-        else if(position.y <= 0  + Base.MEASUREMENTS.y) position.y = 0  + Base.MEASUREMENTS.y;
-    }
-
-    public boolean colissionDetected(){
-        if(position.y >= FlappyBird.CAM_HEIGHT - textures.get(0).getHeight()) return true;
-        else if(position.y <= 0  + Base.MEASUREMENTS.y) return true;
-        return false;
+        if(bounds.y >= FlappyBird.CAM_HEIGHT - textures.get(0).getHeight()) bounds.y = FlappyBird.CAM_HEIGHT - textures.get(0).getHeight();
+        else if(bounds.y <= 0  + Base.MEASUREMENTS.y) bounds.y = Base.MEASUREMENTS.y;
     }
 
     public void jump(){

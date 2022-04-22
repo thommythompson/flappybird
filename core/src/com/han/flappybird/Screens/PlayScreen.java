@@ -8,17 +8,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.han.flappybird.FlappyBird;
-import com.han.flappybird.Entities.Bird;
 import com.han.flappybird.Entities.World;
 
 public class PlayScreen implements Screen {
-
-    private static final int BIRD_LEFT_OFFSET = 60;
-
     private FlappyBird game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
-    private Bird bird;
     private World world;
     private Sound die;
 
@@ -38,7 +33,6 @@ public class PlayScreen implements Screen {
         gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
         gamePort.apply();
 
-        bird = new Bird(BIRD_LEFT_OFFSET, 0 + (FlappyBird.CAM_HEIGHT / 3 * 2));
         world = new World();
     }
 
@@ -49,13 +43,10 @@ public class PlayScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // OpenGL apply backgtround color
 
         game.batch.setProjectionMatrix(gameCam.combined); // Render gameCam projection only
-        
-        if(Gdx.input.isTouched()) bird.jump(); // Catch user input
 
-        bird.updatePosition(delta);
-        world.updateWorld(delta, bird); // needs bird input to determine weheter the bird has past an obstacle
+        world.update(delta, Gdx.input.isTouched()); // needs bird input to determine weheter the bird has past an obstacle
 
-        if(world.colissionDetected(bird.getBounds()) || bird.colissionDetected()){
+        if(world.colissionDetected()){
             die.play(); // play sound
             try {
                 Thread.sleep(1000);
@@ -68,7 +59,6 @@ public class PlayScreen implements Screen {
         // Start batch
         game.batch.begin();
         game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);
-        bird.draw(game.batch, delta); // delta is used to determine which animation frame to draw
         world.draw(game.batch);  
         game.batch.end();
     }

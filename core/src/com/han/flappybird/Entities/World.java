@@ -1,54 +1,52 @@
 package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.han.flappybird.FlappyBird;
 
 public class World {
+    public static final float WORLD_SPEED = 100;
     public static final float TUBE_COUNT = 4;
     public static final float TUBE_SPACING = 120 + Tube.MEASUREMENTS.x;
-    private static final float WORLD_SPEED = 100;
+    private static final int BIRD_LEFT_OFFSET = 60;
 
-    private Array<TubeSet> tubeSets;
-    private Array<Base> baseObjects;
+    private Bird bird;
     private Score score;
-
+    
     public World(){
-        tubeSets = new Array<TubeSet>();
-        baseObjects = new Array<Base>();
-        score = new Score((FlappyBird.CAM_WIDTH / 2) - (Score.SCORE_WIDTH / 2), FlappyBird.CAM_HEIGHT / 4 * 3);
+        WorldObject.disposeObjects();
+        WorldObstacle.disposeObjects();
+        TubeSet.disposeObjects();
 
-        for(int i = 2; i <= (TUBE_COUNT + 1); i++)
-            tubeSets.add(new TubeSet(TUBE_SPACING * i));
-        for(int i = 0; i < 2; i++)
-            baseObjects.add(new Base(i * FlappyBird.CAM_WIDTH, 0));
+        for(int i = 2; i <= (TUBE_COUNT + 1); i++) new TubeSet(TUBE_SPACING * i);
+        for(int i = 0; i < 2; i++) new Base(i * FlappyBird.CAM_WIDTH, 0, 0, 0);
+        for(int i = 0; i < 2; i++) new Base(i * FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, 0, 0); // used as roof collision object, not visible 
+        score = new Score((FlappyBird.CAM_WIDTH / 2) - (Score.SCORE_WIDTH / 2), FlappyBird.CAM_HEIGHT / 4 * 3);
+        bird = new Bird(BIRD_LEFT_OFFSET, 0 + (FlappyBird.CAM_HEIGHT / 3 * 2), 0, 0);
     }
 
-    public void updateWorld(float delta, Bird bird){
+    public void update(float delta, boolean jumpBird){
+        if(jumpBird) bird.jump();
 
-        for(TubeSet tubeSet : tubeSets){
-            tubeSet.addPosition(new Vector2(-(delta * WORLD_SPEED), 0));
-            if(tubeSet.isOffscreen()) tubeSet.resetPosition();
-            if(tubeSet.birdPastTube(bird.getPosition())) score.upScore();
-        }
+        bird.update(delta);
 
-        for(Base baseObject : baseObjects){
-            baseObject.addPosition(new Vector2(-(delta * WORLD_SPEED), 0));
-            if(baseObject.isOffscreen()) baseObject.resetPosition();
+        for(WorldObject worldObject : WorldObstacle.getObjects()) worldObject.update(delta);
+
+        for(TubeSet tubeSet : TubeSet.getObjects()){
+            if(tubeSet.isPassedByBird(bird.getPosition())) score.upScore();
+            if(tubeSet.isOffScreen()) tubeSet.resetPosition();
         }
     }
 
     public void draw(SpriteBatch batch){
-        for(TubeSet tubeSet : tubeSets) tubeSet.draw(batch);
-        for(Base baseObject : baseObjects) baseObject.draw(batch);
+        for(WorldObject worldObject : WorldObject.getObjects()) worldObject.draw(batch);
         score.draw(batch);
     }
 
-    public boolean colissionDetected(Rectangle bounds){
-
-        for(TubeSet tubeSet : tubeSets) if(tubeSet.colissionDetected(bounds)) return true;
+    public boolean colissionDetected(){
+        for(WorldObject worldObject : WorldObstacle.getObjects()) if(worldObject.isCollision(bird.bounds))
+        {
+            return true;
+        }
         return false;
     }
 
