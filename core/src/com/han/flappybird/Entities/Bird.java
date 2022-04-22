@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.han.flappybird.FlappyBird;
 
 public class Bird extends WorldObject{
     public static final Vector2 MEASUREMENTS = new Vector2(30,20);
@@ -69,9 +68,6 @@ public class Bird extends WorldObject{
         if (velocity.y > 180) velocity.y = 180;
         Vector2 position = getPosition().add(velocity.cpy().scl(delta));
         bounds.setPosition(position);
-        
-        if(bounds.y >= FlappyBird.CAM_HEIGHT - textures.get(0).getHeight()) bounds.y = FlappyBird.CAM_HEIGHT - textures.get(0).getHeight();
-        else if(bounds.y <= 0  + Base.MEASUREMENTS.y) bounds.y = Base.MEASUREMENTS.y;
     }
 
     public void jump(){

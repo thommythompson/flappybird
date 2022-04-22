@@ -13,10 +13,6 @@ public class World {
     private Score score;
     
     public World(){
-        WorldObject.disposeObjects();
-        WorldObstacle.disposeObjects();
-        TubeSet.disposeObjects();
-
         for(int i = 2; i <= (TUBE_COUNT + 1); i++) new TubeSet(TUBE_SPACING * i);
         for(int i = 0; i < 2; i++) new Base(i * FlappyBird.CAM_WIDTH, 0, 0, 0);
         for(int i = 0; i < 2; i++) new Base(i * FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, 0, 0); // used as roof collision object, not visible 
@@ -25,10 +21,10 @@ public class World {
     }
 
     public void update(float delta, boolean jumpBird){
+        
         if(jumpBird) bird.jump();
-
         bird.update(delta);
-
+        
         for(WorldObject worldObject : WorldObstacle.getObjects()) worldObject.update(delta);
 
         for(TubeSet tubeSet : TubeSet.getObjects()){
@@ -51,6 +47,8 @@ public class World {
     }
 
     public void dispose(){
-        // TODO implement custom dispose of textures
+        WorldObject.disposeObjects();
+        WorldObstacle.disposeObjects();
+        TubeSet.disposeObjects();
     }
 }

@@ -12,6 +12,7 @@ public abstract class WorldObstacle extends WorldObject{
     }
 
     public static void disposeObjects(){
+        for(WorldObject worldObject : WorldObstacle.getObjects()) worldObject.disposeTexture();
         objects.clear();
     }
 

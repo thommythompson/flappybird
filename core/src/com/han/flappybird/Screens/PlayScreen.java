@@ -1,50 +1,31 @@
 package com.han.flappybird.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.han.flappybird.FlappyBird;
 import com.han.flappybird.Entities.World;
 
-public class PlayScreen implements Screen {
-    private FlappyBird game;
-    private OrthographicCamera gameCam;
-    private Viewport gamePort;
+public class PlayScreen extends FBScreen {
     private World world;
     private Sound die;
 
     public PlayScreen(FlappyBird game){
-        this.game = game;
+        super(game);
     }
 
     @Override
     public void show() {
-        gameCam = new OrthographicCamera();
-        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
-        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
-        gameCam.update();
+        super.show();
 
         die = Gdx.audio.newSound(Gdx.files.internal("audio/die.ogg"));
-
-        gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
-        gamePort.apply();
-
         world = new World();
     }
 
     @Override
     public void render(float delta) {
+        super.render(delta);
 
-        Gdx.gl.glClearColor(.25f, .25f, .25f, 1); // OpenGL set background color
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // OpenGL apply backgtround color
-
-        game.batch.setProjectionMatrix(gameCam.combined); // Render gameCam projection only
-
-        world.update(delta, Gdx.input.isTouched()); // needs bird input to determine weheter the bird has past an obstacle
+        world.update(delta, Gdx.input.isTouched());
 
         if(world.colissionDetected()){
             die.play(); // play sound
@@ -64,12 +45,9 @@ public class PlayScreen implements Screen {
     }
 
     @Override
-    public void resize(int width, int height) {
-
-        gamePort.update(width, height);
-        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
-        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
-        gameCam.update();
+    public void dispose() {
+        world.dispose();
+        die.dispose();
     }
 
     @Override
@@ -80,9 +58,4 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {}
-
-    @Override
-    public void dispose() {
-        // TODO dispose textures & sounds
-    }
 }

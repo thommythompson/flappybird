@@ -29,6 +29,7 @@ public abstract class WorldObject {
     }
 
     public static void disposeObjects(){
+        for(WorldObject worldObject : WorldObject.getObjects()) worldObject.disposeTexture();
         objects.clear();
     }
 
@@ -50,5 +51,9 @@ public abstract class WorldObject {
 
     public boolean isOffScreen(){
         return getPosition().x <= -bounds.width;
+    }
+
+    public void disposeTexture(){
+        texture.dispose();
     }
 }
