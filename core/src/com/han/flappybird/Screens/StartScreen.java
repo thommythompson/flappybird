@@ -40,14 +40,4 @@ public class StartScreen extends FBScreen {
     public void dispose() {
         messageImg.dispose();
     }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
-
 }

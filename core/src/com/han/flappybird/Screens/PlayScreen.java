@@ -55,13 +55,4 @@ public class PlayScreen extends FBScreen {
         world.dispose();
         die.dispose();
     }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
 }

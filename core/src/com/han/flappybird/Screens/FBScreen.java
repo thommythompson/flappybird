@@ -60,4 +60,18 @@ public abstract class FBScreen implements Screen {
         gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
         gameCam.update();
     }
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public abstract void dispose();
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
 }

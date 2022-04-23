@@ -54,6 +54,5 @@ public class World {
         WorldObject.disposeObjects();
         WorldObstacle.disposeObjects();
         TubeSet.disposeObjects();
-        score.dispose();
     }
 }

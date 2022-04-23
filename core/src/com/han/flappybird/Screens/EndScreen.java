@@ -20,11 +20,13 @@ public class EndScreen extends FBScreen  {
 
     @Override
     public void show() {
+        super.show();
         gameOverImg = new Texture("sprites/gameover.png");
     }
 
     @Override
     public void render(float delta){
+        super.render(delta);
 
         if(Gdx.input.isTouched()) game.setScreen(new PlayScreen(game));
 
@@ -38,14 +40,4 @@ public class EndScreen extends FBScreen  {
     public void dispose() {
         gameOverImg.dispose();
     }
-
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
-
-    @Override
-    public void hide() {}
-
 }
