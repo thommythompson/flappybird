@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.Array;
 */
 
 public abstract class WorldObstacle extends WorldObject{
-    private static Array<WorldObject> objects = new Array<WorldObject>();
+    private static Array<WorldObstacle> objects = new Array<WorldObstacle>();
 
     WorldObstacle(float xPos, float yPos, float width, float height) {
         super(xPos, yPos, width, height);
@@ -22,7 +22,7 @@ public abstract class WorldObstacle extends WorldObject{
         objects.clear();
     }
 
-    public static Array<WorldObject> getObjects(){
+    public static Array<WorldObstacle> getObstacles(){
         return objects;
     }
 }

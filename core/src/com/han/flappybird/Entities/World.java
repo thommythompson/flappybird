@@ -29,7 +29,7 @@ public class World {
         if(jumpBird) bird.jump();
         bird.update(delta);
 
-        for(WorldObject worldObject : WorldObstacle.getObjects()) worldObject.update(delta);
+        for(WorldObject worldObject : WorldObstacle.getObstacles()) worldObject.update(delta);
 
         for(TubeSet tubeSet : TubeSet.getObjects()){
             if(tubeSet.isPassedByBird(bird.getPosition())) score.upScore();
@@ -43,7 +43,7 @@ public class World {
     }
 
     public boolean colissionDetected(){
-        for(WorldObject worldObject : WorldObstacle.getObjects()) if(worldObject.isCollision(bird.bounds))
+        for(WorldObject worldObject : WorldObstacle.getObstacles()) if(worldObject.isCollision(bird.bounds))
         {
             return true;
         }
