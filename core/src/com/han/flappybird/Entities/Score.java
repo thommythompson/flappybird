@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
 * @version 1
-* This class tracks an integer and contains the methods to draw it to the screen and to up the integer by one.
+* @author Thomas Hofman
+* Deze klasse is verantwoordelijk voor het bijhouden van de score.
 */
 public class Score{
     public static final int SCORE_WIDTH = 30;
@@ -29,14 +30,24 @@ public class Score{
         position = new Vector2(xPos, yPos);
     }
 
+    /**
+     * Het aanroepen van deze methode hoogt de score met een punt op.
+     */
     public void upScore(){
         score++;
     }
 
+    /**
+     * @param SpriteBatch batch
+     * Deze methode zal score op het scherm tekenen.
+     */
     public void draw(SpriteBatch batch){
         generator.generateFont(parameter).draw(batch, "" + score, position.x, position.y);
     }
 
+    /**
+     * Deze methode zal het ingeladen font uit het geheugen verwijderen.
+     */
     public void dispose(){
         generator.dispose();
     }

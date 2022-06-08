@@ -6,11 +6,9 @@ import com.han.flappybird.FlappyBird;
 
 /**
 * @version 1
-* This class represents they game over screen.
-*
-* When touched the game will start over again.
+* @author Thomas Hofman
+* Deze klasse extend de FBScreen klasse en representeert het game over scherm.
 */
-
 public class EndScreen extends FBScreen  {
     private Texture gameOverImg;
 
@@ -18,12 +16,20 @@ public class EndScreen extends FBScreen  {
         super(game);
     }
 
+    /**
+     * Binnen de show methode wordt de benodigde game over texture ingeladen.
+     */
     @Override
     public void show() {
         super.show();
         gameOverImg = new Texture("sprites/gameover.png");
     }
 
+    /**
+     * @param float delta
+     * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
+     * Verder wordt de achtergrond en de game over texture op het scherm weergegeven.
+     */
     @Override
     public void render(float delta){
         super.render(delta);
@@ -36,6 +42,9 @@ public class EndScreen extends FBScreen  {
         game.batch.end();
     }
 
+    /**
+     * Bij het sluiten van het scherm word de ingeladen game over texture uit het geheugen verwijderd. 
+     */
     @Override
     public void dispose() {
         gameOverImg.dispose();

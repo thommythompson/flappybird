@@ -10,21 +10,24 @@ import com.han.flappybird.FlappyBird;
 
 /**
 * @version 1
-* This abstract class includes the ortocam and viewport used in all screens. 
+* @author Thomas Hofman
+* Deze abstracte klasse bevat een standaard implementatie van de LibGDX Screen interface. Alle scherm klassen binnen de Flappy Bird zullen over erven van deze klasse.
 */
 public abstract class FBScreen implements Screen {
     protected FlappyBird game;
     protected OrthographicCamera gameCam;
     protected Viewport gamePort;
 
+    /** 
+     * @param FlappyBird game
+     * De constructor verwacht dat je een referentie naar de FlappyBird instantie meegeeft.
+     */
     public FBScreen(FlappyBird game){
         this.game = game;
     }
 
-    /**
-     * The show method runs once when the screen is first opened.
-     * It created the ortocam and resets it's position so that 0, 0 is in the left bottom corner.
-     * This cam is then applied to the newly created viewport.
+    /** 
+     * De show klasse wordt standaard aangeroepen bij het openen van een scherm en maakt de Ortographic Camera en Viewport aan.
      */
     @Override
     public void show() {
@@ -37,10 +40,10 @@ public abstract class FBScreen implements Screen {
         gamePort.apply();
     }
 
-    /**
-     * The render method is callsed every time the screen gets rendered.
-     * glClear command's clear the screen from it's previous render.
-     * At tlast the ortocam get's applied to the spritebatch.
+    /** 
+     * @param float delta
+     * De render methode van de Screen interface wordt continue aangeroepen. De tijd tussen deze aanroepen word als parameter meegegeven. 
+     * Binnen deze methode word het scherm schoongeveegd en de Ortographic Camera toegepast.
      */
     @Override
     public void render(float delta){
@@ -51,7 +54,12 @@ public abstract class FBScreen implements Screen {
         game.batch.setProjectionMatrix(gameCam.combined);
     }
 
-    /** The resize is called when the user resizes the window, this method ensures the dimensions of the viewport and ortocam get changed accordingly. */
+    /** 
+     * @param int width
+     * @param int height
+     * De render methode van de Screen interface wordt continue aangeroepen. De tijd tussen deze aanroepen word als parameter meegegeven. 
+     * Binnen deze methode word het scherm schoongeveegd en de Ortographic Camera toegepast.
+     */
     @Override
     public void resize(int width, int height) {
         
@@ -61,17 +69,29 @@ public abstract class FBScreen implements Screen {
         gameCam.update();
     }
 
+    /** 
+     * De hide methode wordt aangeroepen wanneer het scherm gesloten wordt, standaard roept deze methode zijn eigen dispose methode aan.
+     */
     @Override
     public void hide() {
         dispose();
     }
 
+    /** 
+     * De dispose methode is abstract en bied overervende klassen de mogelijkheid om resources te disposen.
+     */
     @Override
     public abstract void dispose();
 
+    /** 
+     * De pause methode is alleen van toepassing op smartphones en wordt aangeroepen wanneer de gebruiker naar een andere applicatie schakelt.
+     */
     @Override
     public void pause() {}
 
+    /** 
+     * De resume methode is alleen van toepassing op smartphones en wordt aangeroepen wanneer de gebruiker weer terug keert naar deze applicatie.
+     */
     @Override
     public void resume() {}
 }

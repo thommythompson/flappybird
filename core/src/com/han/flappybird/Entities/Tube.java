@@ -5,7 +5,8 @@ import com.badlogic.gdx.math.Vector2;
 
 /**
 * @version 1
-* The constructer in this class determines which texture is used based upon the provided tube type. 
+* @author Thomas Hofman
+* Deze klasse bevat alleen een constructor, de contructor bepaald aan de hand van het meegegeven TubeType of de texture van de TopTube of de BottomTube wordt ingeladen. 
 */
 public class Tube extends WorldObstacle{
     public static final Vector2 MEASUREMENTS = new Vector2(50, 300);

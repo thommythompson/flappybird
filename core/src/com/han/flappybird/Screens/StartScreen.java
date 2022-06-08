@@ -6,11 +6,9 @@ import com.han.flappybird.FlappyBird;
 
 /**
 * @version 1
-* This is the first screen shown while starting the application. 
-*
-* It draw's the background and message textures to the screen and waits for user input to switch to the second screen. 
+* @author Thomas Hofman
+* Deze klasse extend de FBScreen klasse en representeert het start scherm.
 */
-
 public class StartScreen extends FBScreen {
     private Texture messageImg;
 
@@ -18,12 +16,20 @@ public class StartScreen extends FBScreen {
         super(game);
     }
 
+    /**
+     * Binnen de show methode wordt de benodigde instructie texture ingeladen.
+     */
     @Override
     public void show() {
         super.show();
         messageImg = new Texture("sprites/message.png");
     }
 
+    /**
+     * @param float delta
+     * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
+     * Verder wordt de achtergrond en de instructie texture op het scherm weergegeven.
+     */
     @Override
     public void render(float delta){
         super.render(delta);
@@ -36,6 +42,9 @@ public class StartScreen extends FBScreen {
         game.batch.end();
     }
     
+    /**
+     * Bij het sluiten van het scherm word de ingeladen instructie texture uit het geheugen verwijderd. 
+     */
     @Override
     public void dispose() {
         messageImg.dispose();

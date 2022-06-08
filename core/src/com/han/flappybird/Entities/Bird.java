@@ -12,7 +12,8 @@ import com.badlogic.gdx.utils.Array;
 
 /**
 * @version 1
-* This class is based upon the worlobject class and represents the bird object.
+* @author Thomas Hofman
+* Deze klasse representeert de vogel die door de speler bestuurt wordt.
 */
 public class Bird extends WorldObject{
     public static final Vector2 MEASUREMENTS = new Vector2(30,20);
@@ -33,7 +34,7 @@ public class Bird extends WorldObject{
     }
 
     /** 
-     * Updates the texture with a keyframe from the animation based upon the elapsed time & updates the bird position.
+     * Deze methode update de positie van de vogel aan de hand van de delta time en bepaald de waarde van het texture attribuut aan de hand van de verstreken tijd.
      */
     @Override
     public void update(float delta){
@@ -43,8 +44,7 @@ public class Bird extends WorldObject{
     }
 
     /** 
-     * Chooses a random bird color and loads the associated textures in a Texture array.
-     * The texture array is used to create a LibGDX animation.
+     * Bepaald willekeurig de kleur die vogel krijgt en vult het animation attribuut.
      */
     private void setAnimation(){
 
@@ -75,7 +75,7 @@ public class Bird extends WorldObject{
     }
 
     /** 
-     * Updates the y position.
+     * Deze methode update de positie van de vogel aan de hand van de delta time en zorgt voor een voortdurend versnelende val.
      */    
     private void updatePosition(float delta){
         velocity.add(acceleration.cpy().scl(delta));
@@ -85,8 +85,8 @@ public class Bird extends WorldObject{
     }
 
     /** 
-     * Increases the y position.
-     */
+     * Wanneer deze methode wordt aangeroepen zal de positie van de vogel verhoogd worden, ook wordt er een geluid afgespeelt. 
+     */  
     public void jump(){
         velocity.y = 140;
         wing.play();

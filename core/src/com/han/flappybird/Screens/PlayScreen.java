@@ -7,10 +7,8 @@ import com.han.flappybird.Entities.World;
 
 /**
 * @version 1
-* This class represents they screen at which the game is played.
-*
-* It creates a world, updates it acording to the delta time and wheter user input is detected & draws it to the screen.
-* If a collision is detected it will freeze the screen and switch to the EndScreen.
+* @author Thomas Hofman
+* Deze klasse extend de FBScreen klasse en representeert het speel scherm.
 */
 public class PlayScreen extends FBScreen {
     private World world;
@@ -20,6 +18,9 @@ public class PlayScreen extends FBScreen {
         super(game);
     }
 
+    /**
+     * Binnen de show word een instantie van de spelwereld aangemaakt. Ook wordt het geluid ingeladen dat afgespeeld wordt wanneer de vogel in aanraking komt met schermranden en/of obstakels.
+     */
     @Override
     public void show() {
         super.show();
@@ -28,6 +29,12 @@ public class PlayScreen extends FBScreen {
         world = new World();
     }
 
+    /**
+     * @param float delta
+     * Binnen de render methode wordt de spelwereld aan de hand van de delta time geupate. 
+     * Indien de wereld een botsing detecteert zal er een geluid afgespeeld worden en de game gefreezed worden voor 1 seconden waarnaar het over schakelt tot het game over scherm.
+     * Indien er geen botsing gedetecteert is word de geupdate versie van de wereld op het scherm weergegeven.
+     */
     @Override
     public void render(float delta) {
         super.render(delta);
@@ -50,6 +57,9 @@ public class PlayScreen extends FBScreen {
         game.batch.end();
     }
 
+    /**
+     * Bij het sluiten van het scherm word het ingeladen game over geluid en de spelwereld uit het geheugen verwijderd. 
+     */
     @Override
     public void dispose() {
         world.dispose();
