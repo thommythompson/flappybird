@@ -38,14 +38,22 @@ public class PlayScreen extends FBScreen {
     public void update(float delta) {
 
         gameWorld.update(delta, Gdx.input.isTouched());
-        if(gameWorld.colissionDetected()){
+        if(gameWorld.isCollisionDetected()){
             gameOverSound.play();
             try {
                 Thread.sleep(1000);
             } catch(InterruptedException e) {
                 System.out.println("Interruption occured!");
             }
-            game.setScreen(new EndScreen(game));
+
+            int achievedScore =  gameWorld.getScore().getScore();
+            if(achievedScore > game.getHighScore()) {
+                game.setHighScore(achievedScore);
+                game.setScreen(new EndScreen(game, true));
+            }else{
+                game.setScreen(new EndScreen(game,false));
+            }
+            
         }
     }
     

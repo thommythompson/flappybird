@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.han.flappybird.FlappyBird;
+import com.han.flappybird.Entities.FlappyBirdFont;
+import com.han.flappybird.Entities.FlappyBirdFontSize;
 
 /**
 * @version 1
@@ -12,6 +14,7 @@ import com.han.flappybird.FlappyBird;
 */
 public class StartScreen extends FBScreen {
     private Texture instructionMessageImg;
+    private FlappyBirdFont font;
 
     public StartScreen(FlappyBird game){
         super(game);
@@ -23,6 +26,7 @@ public class StartScreen extends FBScreen {
     @Override
     public void runOnce() {
         instructionMessageImg = new Texture("sprites/message.png");
+        font = new FlappyBirdFont(FlappyBirdFontSize.Small);
     }
 
     @Override
@@ -40,9 +44,15 @@ public class StartScreen extends FBScreen {
         game.batch.draw(
             instructionMessageImg, 
             ortoCam.viewportWidth / 4, // x positie
-            ortoCam.viewportHeight / 4, // y positie
+            ortoCam.viewportHeight / 8 * 1, // y positie
             ortoCam.viewportWidth / 2, // Breedte van de message
             ortoCam.viewportHeight / 2 // Hoogte van de message
+        );
+
+        font.draw(
+            batch,
+            "Current highscore: " + game.getHighScore(), 
+            ortoCam.viewportHeight / 5 * 4
         );
     }
     
@@ -52,5 +62,6 @@ public class StartScreen extends FBScreen {
     @Override
     public void dispose() {
         instructionMessageImg.dispose();
+        font.dispose();
     }
 }

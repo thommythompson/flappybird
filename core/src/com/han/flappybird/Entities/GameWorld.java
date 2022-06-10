@@ -1,7 +1,6 @@
 package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.particles.ParticleShader.Config;
 import com.han.flappybird.Configuration;
 
 /**
@@ -77,7 +76,7 @@ public class GameWorld {
      * De collisionDetected geeft de waarde true terug wanneer het vogel object overlapt met een van de instanties van het WorldObstacle object.
      * Polymorfie: De getObstacles methode van de WorldObstacle klasse geeft een array terug gevuld met WorldObstacles, de isColission methode is onderdeel van de WorldObject klasse. Om deze te kunnen gebruiken met het object terug gecast worden naar een WorldObject.
      */
-    public boolean colissionDetected(){
+    public boolean isCollisionDetected(){
 
         // Controleer of de bird overlapt met een van de obstakels
         for(GameWorldObject worldObject : GameWorldObstacle.getAllInstances()) if(worldObject.isCollisionDetected(bird.bounds))
@@ -90,6 +89,10 @@ public class GameWorld {
         }
         // Indien geen van de statement true zijn, return false waarde
         return false;
+    }
+
+    public Score getScore(){
+        return score;
     }
 
     /**
