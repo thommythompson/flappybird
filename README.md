@@ -2,11 +2,9 @@
 Schoolproject, Flappybird build within Java using LibGdx framework. 
 
 ### To do
+- Opslaan van de highscore
 - JavaDocs aanpassen
-- Make sure getters & setters are implemented were needed
-- Fix FreeTypeFontGenerator performance
-- Fix bug that occurs after passing score 50: Exception in thread "main" com.badlogic.gdx.utils.GdxRuntimeException: Unable to allocate memory for pixmap: 1024x1024, rgba8888 
+- getters en setters implementeren voor alle public benaderingen
 
-### Nice to have
-- Save high score
-- Speed up game as time passes
+- Spel versnellen naarmaten de tijd vordert
+- Speler de mogelijk geven de kleur vogel te kiezen

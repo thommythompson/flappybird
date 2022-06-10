@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.han.flappybird.FlappyBird;
+import com.han.flappybird.Entities.FlappyBirdFont;
+import com.han.flappybird.Entities.FlappyBirdFontSize;
 
 /**
 * @version 1
@@ -12,9 +14,12 @@ import com.han.flappybird.FlappyBird;
 */
 public class EndScreen extends FBScreen  {
     private Texture gameOverMessageImg;
+    private boolean newHighScore;
+    private FlappyBirdFont font;
 
-    public EndScreen(FlappyBird game){
+    public EndScreen(FlappyBird game, boolean newHighScore){
         super(game);
+        this.newHighScore = newHighScore;
     }
 
     /**
@@ -23,6 +28,7 @@ public class EndScreen extends FBScreen  {
     @Override
     public void runOnce() {
         gameOverMessageImg = new Texture("sprites/gameover.png");
+        font = new FlappyBirdFont(FlappyBirdFontSize.Small);
     }
 
     /**
@@ -52,6 +58,16 @@ public class EndScreen extends FBScreen  {
             ortoCam.viewportWidth / 2, // Breedte van de message
             ortoCam.viewportHeight / 12 // Hoogte van de message
         );
+
+        int highScore = game.getHighScore();
+        String message = "current highscore: " + highScore;
+        if(newHighScore) message = "Congrats with your new highscore " + highScore + "!";
+
+        font.draw(
+            batch,
+            message, 
+            ortoCam.viewportHeight / 5 * 4
+        );
     }
     
     /**
@@ -60,5 +76,6 @@ public class EndScreen extends FBScreen  {
     @Override
     public void dispose() {
         gameOverMessageImg.dispose();
+        font.dispose();
     }
 }
