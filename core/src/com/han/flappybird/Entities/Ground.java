@@ -2,16 +2,16 @@ package com.han.flappybird.Entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.han.flappybird.FlappyBird;
+import com.han.flappybird.Configuration;
 
 /**
 * @version 1
 * Deze klasse representeert het grond object.
 */
-public class Base extends WorldObstacle{
-    public static final Vector2 MEASUREMENTS = new Vector2(FlappyBird.CAM_WIDTH, FlappyBird.CAM_WIDTH / 4);
+public class Ground extends GameWorldObstacle{
+    public static final Vector2 MEASUREMENTS = new Vector2(Configuration.PROJECTION_WIDTH, Configuration.PROJECTION_WIDTH / 4);
 
-    Base(float xPos, float yPos, float width, float height){
+    Ground(float xPos, float yPos){
         super(xPos, yPos, MEASUREMENTS.x, MEASUREMENTS.y);
         texture = new Texture("sprites/base.png");
     }
@@ -20,8 +20,8 @@ public class Base extends WorldObstacle{
      * De update methode is overschreven zodat hier funtionaliteit aan toegevoegd kan worden. Wanneer het object zich namelijk links buiten het scherm bevind zal het zelf zijn positie resetten. 
      */
     @Override
-    public void update(float delta){
-        super.update(delta);
+    public void update(float delta) {
+        moveToTheLeft(delta);
         if(isOffScreen()) resetPosition();
     }
 

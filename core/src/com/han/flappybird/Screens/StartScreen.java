@@ -2,6 +2,7 @@ package com.han.flappybird.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.han.flappybird.FlappyBird;
 
 /**
@@ -10,7 +11,7 @@ import com.han.flappybird.FlappyBird;
 * Deze klasse extend de FBScreen klasse en representeert het start scherm.
 */
 public class StartScreen extends FBScreen {
-    private Texture messageImg;
+    private Texture instructionMessageImg;
 
     public StartScreen(FlappyBird game){
         super(game);
@@ -20,26 +21,29 @@ public class StartScreen extends FBScreen {
      * Binnen de show methode wordt de benodigde instructie texture ingeladen.
      */
     @Override
-    public void show() {
-        super.show();
-        messageImg = new Texture("sprites/message.png");
+    public void runOnce() {
+        instructionMessageImg = new Texture("sprites/message.png");
     }
 
+    @Override
+    public void update(float delta) {
+        if(Gdx.input.isTouched()) game.setScreen(new PlayScreen(game));
+    }
     /**
      * @param float delta
      * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
      * Verder wordt de achtergrond en de instructie texture op het scherm weergegeven.
      */
     @Override
-    public void render(float delta){
-        super.render(delta);
+    public void draw(SpriteBatch batch){
 
-        if(Gdx.input.isTouched()) game.setScreen(new PlayScreen(game));
-
-        game.batch.begin();
-        game.batch.draw(game.getBackground(), gameCam.position.x - (gameCam.viewportWidth / 2), gameCam.position.y - (gameCam.viewportHeight / 2), gameCam.viewportWidth, gameCam.viewportHeight);
-        game.batch.draw(messageImg, FlappyBird.CAM_WIDTH / 4, FlappyBird.CAM_HEIGHT / 4, FlappyBird.CAM_WIDTH / 2, FlappyBird.CAM_HEIGHT / 2);
-        game.batch.end();
+        game.batch.draw(
+            instructionMessageImg, 
+            ortoCam.viewportWidth / 4, // x positie
+            ortoCam.viewportHeight / 4, // y positie
+            ortoCam.viewportWidth / 2, // Breedte van de message
+            ortoCam.viewportHeight / 2 // Hoogte van de message
+        );
     }
     
     /**
@@ -47,6 +51,6 @@ public class StartScreen extends FBScreen {
      */
     @Override
     public void dispose() {
-        messageImg.dispose();
+        instructionMessageImg.dispose();
     }
 }

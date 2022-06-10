@@ -13,13 +13,7 @@ import com.han.flappybird.Screens.StartScreen;
 * Dit is het "entrypoint" van de applicatie, de LibGDX engine roept deze klasse als eerst aan.
 */
 public class FlappyBird extends Game {
-
-	public static final String WINDOW_TITLE = "Flappy Bird";
-	public static final int WINDOW_WIDTH = 480;
-	public static final int WINDOW_HEIGHT = 800;
-	public static final int CAM_WIDTH = WINDOW_WIDTH / 2;
-	public static final int CAM_HEIGHT = WINDOW_HEIGHT / 2;
-
+	
 	public SpriteBatch batch;
 	private Texture backgroundImg;
 
@@ -27,7 +21,7 @@ public class FlappyBird extends Game {
 	 * Deze methode wordt eenmalig aangeroepen bij het starten van de applicatie. De methode is verantwoordelijk voor het aanmaken van de SpriteBatch, roept de updateBackground methode aan en schakelt naar het eerste scherm.
 	 */
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 		
 		updateBackground();
@@ -38,8 +32,12 @@ public class FlappyBird extends Game {
 	 * Deze methode vult het backgroundImg attribuut met een background texture aan de hand van het huidige tijstip.
 	 */
 	private void updateBackground(){
+
+		// Het huidige hele uur ophalen
 		int currentHour = LocalTime.now().getHour();
-        if(currentHour >= 8 && currentHour < 20) backgroundImg = new Texture("sprites/background-day.png");
+
+		// Indien het hele uur gelijk is aan 8 of 20 of daar tussen ligt word de dag background ingeladen, anders de nacht background
+        if(currentHour >= 8 && currentHour <= 20) backgroundImg = new Texture("sprites/background-day.png");
         else backgroundImg = new Texture("sprites/background-night.png");
 	}
 
@@ -56,7 +54,7 @@ public class FlappyBird extends Game {
 	 * Roept de render methode van de Game klasse aan.
 	 */
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
 }
