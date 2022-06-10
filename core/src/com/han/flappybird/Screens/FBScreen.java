@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.han.flappybird.FlappyBird;
+import com.han.flappybird.*;
 
 /**
 * @version 1
@@ -14,30 +15,60 @@ import com.han.flappybird.FlappyBird;
 * Deze abstracte klasse bevat een standaard implementatie van de LibGDX Screen interface. Alle scherm klassen binnen de Flappy Bird zullen over erven van deze klasse.
 */
 public abstract class FBScreen implements Screen {
+	
+
     protected FlappyBird game;
-    protected OrthographicCamera gameCam;
-    protected Viewport gamePort;
+    protected OrthographicCamera ortoCam;
+    protected Viewport viewPort;
 
     /** 
      * @param FlappyBird game
-     * De constructor verwacht dat je een referentie naar de FlappyBird instantie meegeeft.
+     * De constructor vult het game attribuut van de klasse.
      */
     public FBScreen(FlappyBird game){
         this.game = game;
     }
 
     /** 
+     * De runOnce methode is abstract en bied overervende klassen de mogelijkheid om eenmalige acties uit te voeren bij het openen van het scherm.
+     */
+    public abstract void runOnce();
+
+    /** 
+     * De update methode is abstract en bied overervende klassen de mogelijkheid om de state aan te passen voordat deze op het scherm weergegeven wordt middels de draw methode.
+     */
+    public abstract void update(float delta);
+
+    /** 
+     * De draw methode is abstract en bied overervende klassen de mogelijkheid om sprites binnen de spritebatch te renderen.
+     */
+    public abstract void draw(SpriteBatch batch);
+
+    /** 
+     * De dispose methode is abstract en bied overervende klassen de mogelijkheid om resources te disposen.
+     */
+    public abstract void dispose();
+
+    /** 
      * De show klasse wordt standaard aangeroepen bij het openen van een scherm en maakt de Ortographic Camera en Viewport aan.
      */
     @Override
     public void show() {
-        gameCam = new OrthographicCamera();
-        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
-        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
-        gameCam.update();
+        
+        // een offset word toegepast op de x en y positie van de orto cam zodat het 0,0 coordinaat zich niet in het middel van het scherm maar in de hoek links onder bevind. 
+        ortoCam = new OrthographicCamera();
+        ortoCam.position.x =+ (Configuration.PROJECTION_WIDTH / 2);
+        ortoCam.position.y =+ (Configuration.PROJECTION_HEIGHT / 2);
+        ortoCam.update();
 
-        gamePort = new FitViewport(FlappyBird.CAM_WIDTH, FlappyBird.CAM_HEIGHT, gameCam);
-        gamePort.apply();
+        viewPort = new FitViewport(
+            Configuration.PROJECTION_WIDTH, // Viewport breedte
+            Configuration.PROJECTION_HEIGHT, // Viewport hoogte
+            ortoCam
+        );
+        viewPort.apply();
+        
+        runOnce();
     }
 
     /** 
@@ -48,10 +79,28 @@ public abstract class FBScreen implements Screen {
     @Override
     public void render(float delta){
 
+        // LibGDX gebruikt OpenGL rendering, onderstaande commando's zorgen er voor dat het scherm "schoongeveegd" wordt.
         Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        game.batch.setProjectionMatrix(gameCam.combined);
+        // Zorgt er voor dat de spritebatch alleen rendert wat zichtbaar is door de orto cam.
+        game.batch.setProjectionMatrix(ortoCam.combined);
+
+        // Update state
+        update(delta);
+
+        // Render to screen
+        game.batch.begin();
+        game.batch.draw(
+            game.getBackground(), 
+            0, // x positie
+            0, // y positie
+            ortoCam.viewportWidth, // Breedte van de background (fullscreen) 
+            ortoCam.viewportHeight // Hoogte van de background (fullscreen) 
+        );
+        draw(game.batch);
+        game.batch.end();
+        
     }
 
     /** 
@@ -63,10 +112,11 @@ public abstract class FBScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         
-        gamePort.update(width, height);
-        gameCam.position.x =+ (FlappyBird.CAM_WIDTH / 2);
-        gameCam.position.y =+ (FlappyBird.CAM_HEIGHT / 2);
-        gameCam.update();
+        // Bij en resize dient de viewport en ortocam aangepast te worden naar de nieuwe resolutie.
+        viewPort.update(width, height);
+        ortoCam.position.x =+ (Configuration.PROJECTION_WIDTH / 2);
+        ortoCam.position.y =+ (Configuration.PROJECTION_HEIGHT / 2);
+        ortoCam.update();
     }
 
     /** 
@@ -76,12 +126,6 @@ public abstract class FBScreen implements Screen {
     public void hide() {
         dispose();
     }
-
-    /** 
-     * De dispose methode is abstract en bied overervende klassen de mogelijkheid om resources te disposen.
-     */
-    @Override
-    public abstract void dispose();
 
     /** 
      * De pause methode is alleen van toepassing op smartphones en wordt aangeroepen wanneer de gebruiker naar een andere applicatie schakelt.

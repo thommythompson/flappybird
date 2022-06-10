@@ -1,10 +1,10 @@
 package com.han.flappybird.Entities;
 
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-import com.han.flappybird.FlappyBird;
+import com.han.flappybird.Configuration;
 
 /**
 * @version 1
@@ -12,33 +12,48 @@ import com.han.flappybird.FlappyBird;
 * De tube set is verantwoordelijk voor het beheren van onder andere de positie van twee buizen die zich op dezelfde x positie begeven.
 */
 public class TubeSet {
-    private static final float TUBE_GAP = 100;
-    private static final float TOPTUBE_OFFSET = 20;
-    private static final float TOPTUBE_OFFSET_BOTTOM = Base.MEASUREMENTS.y + TOPTUBE_OFFSET + TUBE_GAP;
-    private static final float TOPTUBE_FLUCATUATION = FlappyBird.CAM_HEIGHT - TOPTUBE_OFFSET_BOTTOM - TOPTUBE_OFFSET;
-    private static Array<TubeSet> objects = new Array<TubeSet>();
+    private static final float TUBE_GAP_SIZE = 100; // Grote van het gat tussen de buizen
+    private static final float MINIMAL_TUBE_EXPOSURE = 20; // Minimaal gedeelte van de tube dat zichtbaar blijft
+    private static final float TOPTUBE_YPOS_MINIMUM = Ground.MEASUREMENTS.y + MINIMAL_TUBE_EXPOSURE + TUBE_GAP_SIZE; // De minimale y positie waarop de toptube geplaatst kan worden
+    private static final float TOPTUBE_YPOS_MAXIMUM = TOPTUBE_YPOS_MINIMUM + (Configuration.PROJECTION_HEIGHT - TOPTUBE_YPOS_MINIMUM - MINIMAL_TUBE_EXPOSURE - 10); 
+    private static Array<TubeSet> instances = new Array<TubeSet>();
 
-    private float yOffset;
+    private float topTubeYPos;
     private boolean passedByBird;
     private Array<Tube> tubes;
 
     public TubeSet(float xPos){
-        objects.add(this);
+        instances.add(this);
         tubes = new Array<Tube>();
         passedByBird = false;
 
-        updateYOffset();
-        tubes.add(new Tube(xPos, yOffset, 0, 0, TubeType.TopTube));
-        tubes.add(new Tube(xPos, yOffset - Tube.MEASUREMENTS.y - TUBE_GAP, 0, 0, TubeType.BottomTube));
+        updateTopTubeYPos();
+        tubes.add(new Tube(xPos, topTubeYPos, TubeType.TopTube));
+        tubes.add(new Tube(xPos, topTubeYPos - Tube.MEASUREMENTS.y - TUBE_GAP_SIZE, TubeType.BottomTube));
     }
 
     /**
      * Deze methode herpositioneert de buizen set achteraan in de rij,et het attribuut passedByBird op false en bepaald opniew die positie van de opening tussen de buizen.
      */
-    public void resetPosition(){
-        updateYOffset();
-        tubes.get(0).setPosition(new Vector2(tubes.get(0).getPosition().x + (World.TUBE_COUNT * World.TUBE_SPACING), yOffset));
-        tubes.get(1).setPosition(new Vector2(tubes.get(1).getPosition().x + (World.TUBE_COUNT * World.TUBE_SPACING), yOffset - Tube.MEASUREMENTS.y - TUBE_GAP));
+    public void resetTubeSet(){
+
+        updateTopTubeYPos();
+
+        // Plaatst de top tube
+        tubes.get(0).setPosition(
+            new Vector2(
+                tubes.get(0).getPosition().x + (GameWorld.TUBE_SET_COUNT * GameWorld.SPACE_BETWEEN_TUBES), 
+                topTubeYPos
+            )
+        );
+
+        // Plaatst de bottom tube op basis van de positie van de top tube
+        tubes.get(1).setPosition(
+            new Vector2(
+                tubes.get(1).getPosition().x + (GameWorld.TUBE_SET_COUNT * GameWorld.SPACE_BETWEEN_TUBES), 
+                topTubeYPos - Tube.MEASUREMENTS.y - TUBE_GAP_SIZE
+            )
+        );
         passedByBird = false;
     }
 
@@ -64,25 +79,24 @@ public class TubeSet {
     }
 
     /**
+     * Deze methode update het yOffset atribuut, deze zal de positie waarop de opening tussen de buizen zich bevind bepalen.
+     */
+    private void updateTopTubeYPos(){
+        this.topTubeYPos = ThreadLocalRandom.current().nextInt((int)TOPTUBE_YPOS_MINIMUM, (int)TOPTUBE_YPOS_MAXIMUM);
+    }
+
+    /**
      * @Return Array<TubeSet>
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde TubeSets.
      */
-    public static Array<TubeSet> getObjects(){
-        return objects;
+    public static Array<TubeSet> getAllInstances(){
+        return instances;
     }
 
     /**
      * Gooi de array die alle TubeSet referenties bijhoud leeg.
      */
-    public static void disposeObjects(){
-        objects.clear();
-    }
-
-    /**
-     * Deze methode update het yOffset atribuut, deze zal de positie waarop de opening tussen de buizen zich bevind bepalen.
-     */
-    private void updateYOffset(){
-        Random random = new Random();
-        this.yOffset = TOPTUBE_OFFSET_BOTTOM + random.nextInt((int)TOPTUBE_FLUCATUATION) ;
+    public static void disposeAllInstances(){
+        instances.clear();
     }
 }

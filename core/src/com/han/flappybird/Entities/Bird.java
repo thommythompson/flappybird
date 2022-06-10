@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Array;
 * @author Thomas Hofman
 * Deze klasse representeert de vogel die door de speler bestuurt wordt.
 */
-public class Bird extends WorldObject{
+public class Bird extends GameWorldObject{
     public static final Vector2 MEASUREMENTS = new Vector2(30,20);
     private Vector2 velocity;
     private Vector2 acceleration;
@@ -24,10 +24,10 @@ public class Bird extends WorldObject{
     private float timeElapsed;
     private Sound wing;
 
-    public Bird(float xPos, float yPos, float width, float height){
+    public Bird(float xPos, float yPos){
         super(xPos, yPos, MEASUREMENTS.x, MEASUREMENTS.y);
         velocity = new Vector2(0, 0);
-        acceleration = new Vector2(0, -600);
+        acceleration = new Vector2(0, -500);
         wing = Gdx.audio.newSound(Gdx.files.internal("audio/wing.ogg"));
         
         setAnimation();
@@ -40,7 +40,7 @@ public class Bird extends WorldObject{
     public void update(float delta){
         timeElapsed += delta;
         texture = animation.getKeyFrame(timeElapsed);
-        updatePosition(delta);
+        fall(delta);
     }
 
     /** 
@@ -77,7 +77,7 @@ public class Bird extends WorldObject{
     /** 
      * Deze methode update de positie van de vogel aan de hand van de delta time en zorgt voor een voortdurend versnelende val.
      */    
-    private void updatePosition(float delta){
+    private void fall(float delta){
         velocity.add(acceleration.cpy().scl(delta));
         if (velocity.y > 180) velocity.y = 180;
         Vector2 position = getPosition().add(velocity.cpy().scl(delta));

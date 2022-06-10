@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 
 		// Apply custom configuration
-		config.setWindowedMode(FlappyBird.WINDOW_WIDTH, FlappyBird.WINDOW_HEIGHT);
-		config.setTitle(FlappyBird.WINDOW_TITLE);
+		config.setWindowedMode(Configuration.WINDOW_WIDTH_IN_PIXELS, Configuration.WINDOW_HEIGHT_IN_PIXELS);
+		config.setTitle(Configuration.WINDOW_TITLE);
 		
 		// TODO fix windows icon
 		// config.setWindowIcon("assets/favicon.png");
