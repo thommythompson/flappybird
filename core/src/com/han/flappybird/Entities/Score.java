@@ -1,11 +1,7 @@
 package com.han.flappybird.Entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 /**
 * @version 1

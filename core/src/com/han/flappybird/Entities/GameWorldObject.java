@@ -17,12 +17,12 @@ import com.badlogic.gdx.utils.Array;
 public abstract class GameWorldObject {
     protected Texture texture;
     protected Rectangle bounds;
-    private static Array<GameWorldObject> objects = new Array<GameWorldObject>();
+    private static Array<GameWorldObject> instances = new Array<GameWorldObject>();
     
     GameWorldObject(float xPos, float yPos){}
 
     GameWorldObject(float xPos, float yPos, float width, float height){
-        objects.add(this);
+        instances.add(this);
         bounds = new Rectangle(xPos, yPos, width, height);
     }
 
@@ -101,7 +101,7 @@ public abstract class GameWorldObject {
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde WorldObjecten.
      */
     public static Array<GameWorldObject> getAllInstances(){
-        return objects;
+        return instances;
     }
 
     /**
@@ -109,6 +109,6 @@ public abstract class GameWorldObject {
      */
     public static void disposeAllInstances(){
         for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.disposeTexture();
-        objects.clear();
+        instances.clear();
     }
 }

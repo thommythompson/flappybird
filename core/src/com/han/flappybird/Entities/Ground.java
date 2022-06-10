@@ -21,7 +21,7 @@ public class Ground extends GameWorldObstacle{
      */
     @Override
     public void update(float delta, float timeElapsed, float worldSpeed) {
-        moveToTheLeft(delta, worldSpeed);
+        super.update(delta, timeElapsed, worldSpeed);
         if(isOffScreen()) resetPosition();
     }
 

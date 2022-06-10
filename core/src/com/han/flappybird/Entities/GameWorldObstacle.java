@@ -16,6 +16,11 @@ public abstract class GameWorldObstacle extends GameWorldObject{
         instances.add(this);
     }
 
+    @Override
+    public void update(float delta, float timeElapsed, float worldSpeed) {
+        moveToTheLeft(delta, worldSpeed);
+    }
+
     /**
      * @Return Array<WorldObstacle>
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde WorldObstacles.
