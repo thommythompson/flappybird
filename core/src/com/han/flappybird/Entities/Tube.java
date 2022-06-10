@@ -25,7 +25,7 @@ public class Tube extends GameWorldObstacle{
     }
 
     @Override
-    public void update(float delta) {
-        moveToTheLeft(delta);
+    public void update(float delta, float timeElapsed, float worldSpeed) {
+        moveToTheLeft(delta, worldSpeed);
     }
 }

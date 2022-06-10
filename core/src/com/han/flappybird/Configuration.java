@@ -14,4 +14,7 @@ public class Configuration {
     // Size of the part of the world that is displayed
 	public static final int PROJECTION_WIDTH = GAME_WORLD_WIDTH / 2;
 	public static final int PROJECTION_HEIGHT = GAME_WORLD_HEIGHT / 2;
+
+    // Game settings
+    public static final int MAX_WORLD_SPEED = 110;
 }

@@ -30,7 +30,7 @@ public abstract class GameWorldObject {
      * @param float delta
      * bepaald de nieuwe staat van het object en wordt continue aangeroepen.
      */
-    public abstract void update(float delta);
+    public abstract void update(float delta, float timeElapsed, float worldSpeed);
 
     /**
      * @param SpriteBatch batch
@@ -68,8 +68,8 @@ public abstract class GameWorldObject {
      * @param float delta
      * Beweegt het object naar links. De snelheid word bepaald door de delta time en de world speed.
      */
-    public void moveToTheLeft(float delta){
-        addPosition(new Vector2(-(delta * GameWorld.WORLD_SPEED), 0));
+    public void moveToTheLeft(float delta, float worldSpeed){
+        addPosition(new Vector2(-(delta * worldSpeed), 0));
     }
 
     /**

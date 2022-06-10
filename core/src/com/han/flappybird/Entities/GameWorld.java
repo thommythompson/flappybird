@@ -9,11 +9,12 @@ import com.han.flappybird.Configuration;
 * De spelwereld is verantwoordelijk voor het initiëren, beheren en weergeven van alle spelobjecten.
 */
 public class GameWorld {
-    public static final float WORLD_SPEED = 100;
     public static final float TUBE_SET_COUNT = 4;
     public static final float SPACE_BETWEEN_TUBES = 120 + Tube.MEASUREMENTS.x;
     private static final int BIRD_X_POSITION = 60;
 
+    private float worldSpeed = 100;
+    private float timeElapsed;
     private Bird bird;
     private Score score;
     
@@ -46,11 +47,14 @@ public class GameWorld {
      */
     public void update(float delta, boolean userInputDetected){
 
+        timeElapsed = timeElapsed + delta;
+        accelerateWorld();
+
         // laat de vogel springen indien de vogel het scherm aangeraakt heeft
         if(userInputDetected) bird.jump();
 
         // Update de state van alle game objecten
-        for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.update(delta);
+        for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.update(delta, timeElapsed, worldSpeed);
 
         for(TubeSet tubeSet : TubeSet.getAllInstances()){
 
@@ -93,6 +97,14 @@ public class GameWorld {
 
     public Score getScore(){
         return score;
+    }
+
+    public float getWorldSpeed(){
+        return worldSpeed;
+    }
+
+    private void accelerateWorld(){
+        if(worldSpeed <= Configuration.MAX_WORLD_SPEED) worldSpeed = worldSpeed + (timeElapsed / 1200);
     }
 
     /**

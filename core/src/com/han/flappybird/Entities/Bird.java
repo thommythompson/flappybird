@@ -21,14 +21,13 @@ public class Bird extends GameWorldObject{
     private Vector2 acceleration;
     private Animation<Texture> animation;
     private Array<Texture> textures;
-    private float timeElapsed;
-    private Sound wing;
+    private Sound wingSound;
 
     public Bird(float xPos, float yPos){
         super(xPos, yPos, MEASUREMENTS.x, MEASUREMENTS.y);
         velocity = new Vector2(0, 0);
         acceleration = new Vector2(0, -500);
-        wing = Gdx.audio.newSound(Gdx.files.internal("audio/wing.ogg"));
+        wingSound = Gdx.audio.newSound(Gdx.files.internal("audio/wing.ogg"));
         
         setAnimation();
     }
@@ -37,10 +36,10 @@ public class Bird extends GameWorldObject{
      * Deze methode update de positie van de vogel aan de hand van de delta time en bepaald de waarde van het texture attribuut aan de hand van de verstreken tijd.
      */
     @Override
-    public void update(float delta){
-        timeElapsed += delta;
+    public void update(float delta, float timeElapsed, float worldSpeed){
         texture = animation.getKeyFrame(timeElapsed);
         fall(delta);
+        accelerateBirdMovement(worldSpeed);
     }
 
     /** 
@@ -88,7 +87,12 @@ public class Bird extends GameWorldObject{
      * Wanneer deze methode wordt aangeroepen zal de positie van de vogel verhoogd worden, ook wordt er een geluid afgespeelt. 
      */  
     public void jump(){
-        velocity.y = 140;
-        wing.play();
+        velocity.y = 150;
+        wingSound.play();
+    }
+
+    private void accelerateBirdMovement(float worldSpeed){
+        velocity.y = velocity.y + (worldSpeed / 1000);
+        acceleration.y = acceleration.y - (worldSpeed / 1000) ;
     }
 }

@@ -20,8 +20,8 @@ public class Ground extends GameWorldObstacle{
      * De update methode is overschreven zodat hier funtionaliteit aan toegevoegd kan worden. Wanneer het object zich namelijk links buiten het scherm bevind zal het zelf zijn positie resetten. 
      */
     @Override
-    public void update(float delta) {
-        moveToTheLeft(delta);
+    public void update(float delta, float timeElapsed, float worldSpeed) {
+        moveToTheLeft(delta, worldSpeed);
         if(isOffScreen()) resetPosition();
     }
 
