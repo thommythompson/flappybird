@@ -23,7 +23,7 @@ public class GameWorld {
         // aanmaken van alle tubes
         for(int i = 2; i <= (TUBE_SET_COUNT + 1); i++) new TubeSet(SPACE_BETWEEN_TUBES * i);
         
-        // het grond object onder in het scherm
+        // aanmaken van het grond object
         for(int i = 0; i < 2; i++) 
             new Ground(
                 i * Configuration.PROJECTION_WIDTH, // xPos
@@ -47,13 +47,16 @@ public class GameWorld {
      */
     public void update(float delta, boolean userInputDetected){
 
+        // houd de vertreken tijd in de huidige spel sessie bij
         timeElapsed = timeElapsed + delta;
+
+        // versnelt het spel naarmaten de tijd vordert.
         accelerateWorld();
 
         // laat de vogel springen indien de vogel het scherm aangeraakt heeft
         if(userInputDetected) bird.jump();
 
-        // Update de state van alle game objecten
+        // Update de state van alle objecten geinstantieerd de GameWorldObject klasse of overervende klassen die hun eigen implementatie hebben van de update methode (polymorfie).
         for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.update(delta, timeElapsed, worldSpeed);
 
         for(TubeSet tubeSet : TubeSet.getAllInstances()){
@@ -61,7 +64,7 @@ public class GameWorld {
             // Indien de vogel de set buizen gepasseerd heeft hogen we de score op.
             if(tubeSet.isPassedByBird(bird.getPosition())) score.upScore();
 
-            // De tubes dienen zich als set de gedragen daarom word de positie niet gereset binnen de individuele tube instantie maar via de set.
+            // De tubes dienen zich als set de gedragen daarom word de positie niet gereset binnen de individuele tube instantie maar via de set die deze geinstantieert heeft.
             if(tubeSet.isOffScreen()) tubeSet.resetTubeSet();
         }
     }
@@ -78,31 +81,36 @@ public class GameWorld {
     /**
      * @return boolean
      * De collisionDetected geeft de waarde true terug wanneer het vogel object overlapt met een van de instanties van het WorldObstacle object.
-     * Polymorfie: De getObstacles methode van de WorldObstacle klasse geeft een array terug gevuld met WorldObstacles, de isColission methode is onderdeel van de WorldObject klasse. Om deze te kunnen gebruiken met het object terug gecast worden naar een WorldObject.
      */
     public boolean isCollisionDetected(){
 
         // Controleer of de bird overlapt met een van de obstakels
-        for(GameWorldObject worldObject : GameWorldObstacle.getAllInstances()) if(worldObject.isCollisionDetected(bird.bounds))
-        {
-            return true;
-        }
+        for(GameWorldObject worldObject : GameWorldObstacle.getAllInstances()) if(worldObject.isCollisionDetected(bird.bounds)) return true;
         // Controleer of de bird zich buiten het scherm bevind
-        if(bird.getPosition().y >= Configuration.PROJECTION_HEIGHT - Bird.MEASUREMENTS.y){
-            return true;
-        }
+        if(bird.getPosition().y >= Configuration.PROJECTION_HEIGHT - Bird.MEASUREMENTS.y) return true;
         // Indien geen van de statement true zijn, return false waarde
         return false;
     }
 
+    /**
+     * Geeft de score van de huidige spel sessie terug.
+     * @return Score
+     */
     public Score getScore(){
         return score;
     }
 
+    /**
+     * Geeft de huidige spel snelheid terug.
+     * @return float
+     */
     public float getWorldSpeed(){
         return worldSpeed;
     }
 
+    /**
+     * Verhoogt de snelheid van het spel naarmaten de tijd vordert.
+     */
     private void accelerateWorld(){
         if(worldSpeed <= Configuration.MAX_WORLD_SPEED) worldSpeed = worldSpeed + (timeElapsed / 1200);
     }
@@ -114,5 +122,6 @@ public class GameWorld {
         GameWorldObject.disposeAllInstances();
         GameWorldObstacle.disposeAllInstances();
         TubeSet.disposeAllInstances();
+        score.dispose();
     }
 }

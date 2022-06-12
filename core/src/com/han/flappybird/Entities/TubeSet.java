@@ -33,7 +33,7 @@ public class TubeSet {
     }
 
     /**
-     * Deze methode herpositioneert de buizen set achteraan in de rij,et het attribuut passedByBird op false en bepaald opniew die positie van de opening tussen de buizen.
+     * Deze methode herpositioneert de buizen set achteraan in de rij en zet het attribuut passedByBird op false en bepaald opnieuw die positie van de opening tussen de buizen.
      */
     public void resetTubeSet(){
 
@@ -54,6 +54,7 @@ public class TubeSet {
                 topTubeYPos - Tube.MEASUREMENTS.y - TUBE_GAP_SIZE
             )
         );
+
         passedByBird = false;
     }
 
@@ -94,7 +95,7 @@ public class TubeSet {
     }
 
     /**
-     * Gooi de array die alle TubeSet referenties bijhoud leeg.
+     * Gooit de array die alle TubeSet referenties bijhoud leeg.
      */
     public static void disposeAllInstances(){
         instances.clear();

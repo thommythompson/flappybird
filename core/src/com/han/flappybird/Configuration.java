@@ -1,5 +1,10 @@
 package com.han.flappybird;
 
+/**
+* @version 1
+* @author Thomas Hofman
+* Deze methode bevat publiekelijk beschikbare constante variabele die de presentatie/ervaring van het spel beinvloeden. 
+*/
 public class Configuration {
 
     // Windows settings

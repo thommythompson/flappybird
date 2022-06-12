@@ -22,7 +22,7 @@ public class FlappyBird extends Game {
 	private int highscore;
 
 	/**
-	 * Deze methode wordt eenmalig aangeroepen bij het starten van de applicatie. De methode is verantwoordelijk voor het aanmaken van de SpriteBatch, roept de updateBackground methode aan en schakelt naar het eerste scherm.
+	 * Deze methode wordt eenmalig aangeroepen bij het starten van de applicatie. De methode is verantwoordelijk voor het aanmaken van de SpriteBatch, roept de updateBackground methode aan, laat de laatste highscore in en schakelt naar het eerste scherm.
 	 */
 	@Override
 	public void create() {
@@ -56,10 +56,18 @@ public class FlappyBird extends Game {
 		return backgroundImg;
 	}
 
+	/**
+	 * @return Texture
+	 * Getter voor het highscore attribuut.
+	 */
 	public int getHighScore(){
 		return highscore;
 	}
 
+	/**
+	 * @return Texture
+	 * Overschrijft de huidige highscore met de opgegeven waarde.
+	 */
 	public void setHighScore(int newScore){
 		prefs.putInteger("highscore", newScore);
 		prefs.flush();

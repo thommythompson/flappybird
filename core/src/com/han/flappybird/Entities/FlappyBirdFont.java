@@ -25,15 +25,16 @@ public class FlappyBirdFont {
     
     /**
      * @param SpriteBatch batch
-     * Deze methode zal score op het scherm tekenen.
+     * Deze methode zal de opgegeven value op de opgegeven y-positie weergeven, de text centraliseert zich vanzelf over de x-as.
      */
-    public void draw(SpriteBatch batch, String value, float xPos, float yPos){
-        font.draw(batch, "" +  value, xPos, yPos);
-    }
     public void draw(SpriteBatch batch, String value, float yPos){
         font.draw(batch, "" +  value, 0, yPos, Configuration.PROJECTION_WIDTH, 1, true);
     }
 
+    /**
+     * bepaald de grootte van het lettertype.
+     * @param FlappyBirdFontSize size
+     */
     private void setFontSize(FlappyBirdFontSize size){
         switch(size){
             case Small: 
@@ -46,8 +47,8 @@ public class FlappyBirdFont {
                 parameter.size = 40;
                 break;
         }
-        font = generator.generateFont(parameter);
     }
+    
     /**
      * Deze methode zal het ingeladen font uit het geheugen verwijderen.
      */

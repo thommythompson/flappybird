@@ -19,6 +19,12 @@ public abstract class GameWorldObject {
     protected Rectangle bounds;
     private static Array<GameWorldObject> instances = new Array<GameWorldObject>();
     
+    /**
+     * @param xPos
+     * @param yPos
+     * Deze constructor bestaat omdat er voor elke klassen die over erven van de WorldObject klasse afmetingen gedefineerd zijn middels een constante variabele. 
+     * Het opnemen van deze constructor maakt het mogelijk voor overervende klasses om deze constructor zelf te implementeren en dus niet onnodig om afmeting gerelateerde paramters hoeven te vragen.
+     */
     GameWorldObject(float xPos, float yPos){}
 
     GameWorldObject(float xPos, float yPos, float width, float height){
@@ -28,13 +34,13 @@ public abstract class GameWorldObject {
 
     /**
      * @param float delta
-     * bepaald de nieuwe staat van het object en wordt continue aangeroepen.
+     * Abstract methode die de nieuwe staat van het object bepaald en wordt continue aangeroepen.
      */
     public abstract void update(float delta, float timeElapsed, float worldSpeed);
 
     /**
      * @param SpriteBatch batch
-     * De draw methode tekent het waarde van het texture attribuut in de spritebatch met de afmetingen en positie die aanwezig zijn in het bounds attribuut.
+     * De draw methode tekent de waarde van het Texture attribuut op het scherm met de afmetingen en positie die opgeslagen zijn in het bounds attribuut.
      */
     public void draw(SpriteBatch batch){
         batch.draw(texture, bounds.x, bounds.y, bounds.width, bounds.height);
@@ -75,7 +81,7 @@ public abstract class GameWorldObject {
     /**
      * @param Rectangle bounds
      * @return boolean
-     * Geeft de waarde true terug indien de vierhoek opgegeven als methode parameter overlapt met de vierhoek uit het bounds attribuut.
+     * Geeft de waarde true terug indien de vierhoek opgegeven als parameter overlapt met de vierhoek uit het bounds attribuut van de instantie waar de methode van aangeroepen wordt.
      */
     public boolean isCollisionDetected(Rectangle bounds){
         return this.bounds.overlaps(bounds);
@@ -83,14 +89,14 @@ public abstract class GameWorldObject {
 
     /**
      * @return boolean
-     * Geeft de waarde true terug indien het object zich volledig buiten het scherm begeeft.
+     * Geeft de waarde true terug indien het object zich volledig links buiten het scherm begeeft.
      */
     public boolean isOffScreen(){
         return getPosition().x <= -bounds.width;
     }
 
     /**
-     * Verwijderd de texture ingeladen in het texture attribuut uit het geheugen.
+     * Verwijderd het ingeladen texture attribuut uit het geheugen.
      */
     public void disposeTexture(){
         texture.dispose();

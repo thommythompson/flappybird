@@ -26,12 +26,25 @@ public class Score{
         score++;
     }
 
+    /**
+     * Geeft de waarde van het score attribuut terug.
+     */
     public int getScore(){
         return score;
     }
 
+    /**
+     * @param SpriteBatch bathc
+     * Print de score op het scherm middels de fontgenerator.
+     */
     public void draw(SpriteBatch batch){
-        // font.draw(batch, Integer.toString(score), position.x, position.y);
         font.draw(batch, Integer.toString(score), position.y);
     }    
+
+    /**
+     * verwijderd de font generator uit het geheugen.
+     */
+    public void dispose(){
+        font.dispose();
+    }
 }

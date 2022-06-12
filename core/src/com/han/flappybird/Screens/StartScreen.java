@@ -21,7 +21,7 @@ public class StartScreen extends FBScreen {
     }
 
     /**
-     * Binnen de show methode wordt de benodigde instructie texture ingeladen.
+     * Binnen de runOnce methode wordt de benodigde instructie texture en de font generator ingeladen.
      */
     @Override
     public void runOnce() {
@@ -29,14 +29,18 @@ public class StartScreen extends FBScreen {
         font = new FlappyBirdFont(FlappyBirdFontSize.Small);
     }
 
+    /**
+     * @param float delta
+     * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
+     */
     @Override
     public void update(float delta) {
         if(Gdx.input.isTouched()) game.setScreen(new PlayScreen(game));
     }
+    
     /**
-     * @param float delta
-     * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
-     * Verder wordt de achtergrond en de instructie texture op het scherm weergegeven.
+     * @param SpriteBatch batch
+     * De draw methode tekent de instructie message en de huidige highscore op het scherm.
      */
     @Override
     public void draw(SpriteBatch batch){
@@ -57,7 +61,7 @@ public class StartScreen extends FBScreen {
     }
     
     /**
-     * Bij het sluiten van het scherm word de ingeladen instructie texture uit het geheugen verwijderd. 
+     * Bij het sluiten van het scherm word de ingeladen instructie texture en font generator uit het geheugen verwijderd. 
      */
     @Override
     public void dispose() {

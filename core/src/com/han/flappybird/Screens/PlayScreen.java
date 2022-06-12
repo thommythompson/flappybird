@@ -20,7 +20,7 @@ public class PlayScreen extends FBScreen {
     }
 
     /**
-     * Binnen de show word een instantie van de spelwereld aangemaakt. Ook wordt het geluid ingeladen dat afgespeeld wordt wanneer de vogel in aanraking komt met schermranden en/of obstakels.
+     * Binnen de runOnce methode word er een instantie van de spelwereld aangemaakt en een game over geluid ingeladen.
      */
     @Override
     public void runOnce() {
@@ -30,9 +30,8 @@ public class PlayScreen extends FBScreen {
 
     /**
      * @param float delta
-     * Binnen de render methode wordt de spelwereld aan de hand van de delta time geupate. 
+     * Binnen de update methode wordt de spelwereld aan de hand van de delta time geupate. 
      * Indien de wereld een botsing detecteert zal er een geluid afgespeeld worden en de game gefreezed worden voor 1 seconden waarnaar het over schakelt tot het game over scherm.
-     * Indien er geen botsing gedetecteert is word de geupdate versie van de wereld op het scherm weergegeven.
      */
     @Override
     public void update(float delta) {
@@ -58,10 +57,8 @@ public class PlayScreen extends FBScreen {
     }
     
     /**
-     * @param float delta
-     * Binnen de render methode wordt de spelwereld aan de hand van de delta time geupate. 
-     * Indien de wereld een botsing detecteert zal er een geluid afgespeeld worden en de game gefreezed worden voor 1 seconden waarnaar het over schakelt tot het game over scherm.
-     * Indien er geen botsing gedetecteert is word de geupdate versie van de wereld op het scherm weergegeven.
+     * @param SpriteBatch batch
+     * Tekent de geupdate versie van de spelwereld op het scherm.
      */
     @Override
     public void draw(SpriteBatch batch){

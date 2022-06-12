@@ -15,22 +15,16 @@ import com.han.flappybird.*;
 * Deze abstracte klasse bevat een standaard implementatie van de LibGDX Screen interface. Alle scherm klassen binnen de Flappy Bird zullen over erven van deze klasse.
 */
 public abstract class FBScreen implements Screen {
-	
-
     protected FlappyBird game;
     protected OrthographicCamera ortoCam;
     protected Viewport viewPort;
 
-    /** 
-     * @param FlappyBird game
-     * De constructor vult het game attribuut van de klasse.
-     */
     public FBScreen(FlappyBird game){
         this.game = game;
     }
 
     /** 
-     * De runOnce methode is abstract en bied overervende klassen de mogelijkheid om eenmalige acties uit te voeren bij het openen van het scherm.
+     * De runOnce methode is abstract en bied overervende klassen de mogelijkheid om eenmalige acties uit te voeren bij het openen van een scherm.
      */
     public abstract void runOnce();
 
@@ -40,7 +34,7 @@ public abstract class FBScreen implements Screen {
     public abstract void update(float delta);
 
     /** 
-     * De draw methode is abstract en bied overervende klassen de mogelijkheid om sprites binnen de spritebatch te renderen.
+     * De draw methode is abstract en bied overervende klassen de mogelijkheid om sprites binnen de spritebatch te renderen, de inhoud van de spritebatch wordt ieder frame op het scherm weergegeven.
      */
     public abstract void draw(SpriteBatch batch);
 
@@ -106,8 +100,7 @@ public abstract class FBScreen implements Screen {
     /** 
      * @param int width
      * @param int height
-     * De render methode van de Screen interface wordt continue aangeroepen. De tijd tussen deze aanroepen word als parameter meegegeven. 
-     * Binnen deze methode word het scherm schoongeveegd en de Ortographic Camera toegepast.
+     * De resize methode wordt aangeroepen wanneer de user het scherm verkleint of vergroot en past opnieuw de viewport en ortocam toe.
      */
     @Override
     public void resize(int width, int height) {

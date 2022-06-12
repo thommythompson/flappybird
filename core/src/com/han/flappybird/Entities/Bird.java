@@ -91,6 +91,10 @@ public class Bird extends GameWorldObject{
         wingSound.play();
     }
 
+    /**
+     * Wanneer de wereld versnelt zal ook de vogel sneller moeten kunnen bewegen om het spel speelbaar te houden, deze methode versnelt de snelheid en de acceleratie factor van de vogel aan de hand van de worldspeed.
+     * @param worldSpeed
+     */
     private void accelerateBirdMovement(float worldSpeed){
         velocity.y = velocity.y + (worldSpeed / 1000);
         acceleration.y = acceleration.y - (worldSpeed / 1000) ;
