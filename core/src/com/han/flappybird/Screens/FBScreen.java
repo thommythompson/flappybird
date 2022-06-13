@@ -23,7 +23,7 @@ public abstract class FBScreen implements Screen {
         this.game = game;
     }
 
-    /** 
+    /**
      * De runOnce methode is abstract en bied overervende klassen de mogelijkheid om eenmalige acties uit te voeren bij het openen van een scherm.
      */
     public abstract void runOnce();

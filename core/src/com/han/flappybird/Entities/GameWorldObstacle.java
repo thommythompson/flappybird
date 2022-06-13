@@ -36,7 +36,7 @@ public abstract class GameWorldObstacle extends GameWorldObject{
      * Verwijderd alle Textures die ingeladen zijn door instanties van het WorldObstacle type uit het geheugen en leegt vervolgens de statisch array waarin het referenties naar instanties van het eigen type bijhoud.
      */
     public static void disposeAllInstances(){
-        for(GameWorldObject worldObject : GameWorldObstacle. getAllInstances()) worldObject.disposeTexture();
+        for(GameWorldObject worldObject : GameWorldObstacle. getAllInstances()) worldObject.dispose();
         instances.clear();
     }
 }

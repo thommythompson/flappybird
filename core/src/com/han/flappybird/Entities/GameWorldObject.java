@@ -98,7 +98,7 @@ public abstract class GameWorldObject {
     /**
      * Verwijderd het ingeladen texture attribuut uit het geheugen.
      */
-    public void disposeTexture(){
+    public void dispose(){
         texture.dispose();
     }
 
@@ -114,7 +114,7 @@ public abstract class GameWorldObject {
      * Verwijderd alle Textures die ingeladen zijn door instanties van het WorldObject type uit het geheugen en leegt vervolgens de statisch array waarin het referenties naar instanties van het eigen type bijhoud.
      */
     public static void disposeAllInstances(){
-        for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.disposeTexture();
+        for(GameWorldObject worldObject : GameWorldObject.getAllInstances()) worldObject.dispose();
         instances.clear();
     }
 }

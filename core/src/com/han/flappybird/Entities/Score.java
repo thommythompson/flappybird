@@ -34,7 +34,7 @@ public class Score{
     }
 
     /**
-     * @param SpriteBatch bathc
+     * @param SpriteBatch batch
      * Print de score op het scherm middels de fontgenerator.
      */
     public void draw(SpriteBatch batch){
