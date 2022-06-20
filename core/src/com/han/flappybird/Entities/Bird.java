@@ -32,8 +32,11 @@ public class Bird extends GameWorldObject{
         setAnimation();
     }
 
-    /** 
+    /**
      * Deze methode update de positie van de vogel aan de hand van de delta time en bepaald de waarde van het texture attribuut aan de hand van de verstreken tijd.
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
+     * @param timeElapsed - De tijd verstreken binnen de spel sessie in seconden
+     * @param worldSpeed - De huidige snelheid van de wereld
      */
     @Override
     public void update(float delta, float timeElapsed, float worldSpeed){
@@ -73,9 +76,10 @@ public class Bird extends GameWorldObject{
         animation = new Animation<Texture>(0.5f, textures, PlayMode.LOOP);
     }
 
-    /** 
+    /**
      * Deze methode update de positie van de vogel aan de hand van de delta time en zorgt voor een voortdurend versnelende val.
-     */    
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
+     */
     private void fall(float delta){
         velocity.add(acceleration.cpy().scl(delta));
         if (velocity.y > 180) velocity.y = 180;
@@ -93,7 +97,7 @@ public class Bird extends GameWorldObject{
 
     /**
      * Wanneer de wereld versnelt zal ook de vogel sneller moeten kunnen bewegen om het spel speelbaar te houden, deze methode versnelt de snelheid en de acceleratie factor van de vogel aan de hand van de worldspeed.
-     * @param worldSpeed
+     * @param worldSpeed - De huidige snelheid van de spel wereld
      */
     private void accelerateBirdMovement(float worldSpeed){
         velocity.y = velocity.y + (worldSpeed / 1000);

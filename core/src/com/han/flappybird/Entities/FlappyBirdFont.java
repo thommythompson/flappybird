@@ -7,6 +7,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.han.flappybird.Configuration;
 
+/**
+ * @version 1
+ * @author Thomas Hofman
+ * Deze klasse representeert de font generator.
+ */
 public class FlappyBirdFont {
     private FreeTypeFontGenerator generator;
     private FreeTypeFontGenerator.FreeTypeFontParameter parameter;
@@ -22,10 +27,12 @@ public class FlappyBirdFont {
         setFontSize(size);
         font = generator.generateFont(parameter);
     }
-    
+
     /**
-     * @param SpriteBatch batch
      * Deze methode zal de opgegeven value op de opgegeven y-positie weergeven, de text centraliseert zich vanzelf over de x-as.
+     * @param batch - De spritebatch
+     * @param value - De string waarde die weergegeven dient te worden
+     * @param yPos - De y positie waar de waarde weergegeven dient te worden
      */
     public void draw(SpriteBatch batch, String value, float yPos){
         font.draw(batch, "" +  value, 0, yPos, Configuration.PROJECTION_WIDTH, 1, true);
@@ -33,7 +40,7 @@ public class FlappyBirdFont {
 
     /**
      * bepaald de grootte van het lettertype.
-     * @param FlappyBirdFontSize size
+     * @param size - De grote van het lettertype
      */
     private void setFontSize(FlappyBirdFontSize size){
         switch(size){

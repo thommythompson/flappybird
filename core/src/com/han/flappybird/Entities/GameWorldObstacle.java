@@ -18,6 +18,9 @@ public abstract class GameWorldObstacle extends GameWorldObject{
 
     /**
      * De WorldObject klasse heeft zijn eigen implementatie van de update methode, alle obstakels moeten namelijk van rechts naar links door het scherm bewogen worden.
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
+     * @param timeElapsed - De tijd verstreken binnen de spel sessie in seconden
+     * @param worldSpeed - De huidige snelheid van de wereld
      */
     @Override
     public void update(float delta, float timeElapsed, float worldSpeed) {
@@ -25,8 +28,8 @@ public abstract class GameWorldObstacle extends GameWorldObject{
     }
 
     /**
-     * @Return Array<WorldObstacle>
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde WorldObstacles.
+     * @return {Array&lt;GameWorldObject&gt;}
      */
     public static Array<GameWorldObject> getAllInstances(){
         return instances;

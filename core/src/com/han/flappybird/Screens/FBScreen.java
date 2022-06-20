@@ -28,13 +28,15 @@ public abstract class FBScreen implements Screen {
      */
     public abstract void runOnce();
 
-    /** 
+    /**
      * De update methode is abstract en bied overervende klassen de mogelijkheid om de state aan te passen voordat deze op het scherm weergegeven wordt middels de draw methode.
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      */
     public abstract void update(float delta);
 
-    /** 
+    /**
      * De draw methode is abstract en bied overervende klassen de mogelijkheid om sprites binnen de spritebatch te renderen, de inhoud van de spritebatch wordt ieder frame op het scherm weergegeven.
+     * @param batch - De SpriteBatch
      */
     public abstract void draw(SpriteBatch batch);
 
@@ -66,7 +68,7 @@ public abstract class FBScreen implements Screen {
     }
 
     /** 
-     * @param float delta
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      * De render methode van de Screen interface wordt continue aangeroepen. De tijd tussen deze aanroepen word als parameter meegegeven. 
      * Binnen deze methode word het scherm schoongeveegd en de Ortographic Camera toegepast.
      */
@@ -98,8 +100,8 @@ public abstract class FBScreen implements Screen {
     }
 
     /** 
-     * @param int width
-     * @param int height
+     * @param width - Nieuwe breedte van het venster
+     * @param height - Nieuwe hoogte van het venster
      * De resize methode wordt aangeroepen wanneer de user het scherm verkleint of vergroot en past opnieuw de viewport en ortocam toe.
      */
     @Override

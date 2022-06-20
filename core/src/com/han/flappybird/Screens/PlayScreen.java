@@ -29,7 +29,7 @@ public class PlayScreen extends FBScreen {
     }
 
     /**
-     * @param float delta
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      * Binnen de update methode wordt de spelwereld aan de hand van de delta time geupate. 
      * Indien de wereld een botsing detecteert zal er een geluid afgespeeld worden en de game gefreezed worden voor 1 seconden waarnaar het over schakelt tot het game over scherm.
      */
@@ -57,7 +57,7 @@ public class PlayScreen extends FBScreen {
     }
     
     /**
-     * @param SpriteBatch batch
+     * @param batch - De spritebatch
      * Tekent de geupdate versie van de spelwereld op het scherm.
      */
     @Override

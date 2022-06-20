@@ -30,7 +30,7 @@ public class StartScreen extends FBScreen {
     }
 
     /**
-     * @param float delta
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      * Binnen de render methode wordt user input afgevangen, indien deze gedetecteert wordt over wordt er over geschakelt naar het PlayScreen.
      */
     @Override
@@ -39,7 +39,7 @@ public class StartScreen extends FBScreen {
     }
     
     /**
-     * @param SpriteBatch batch
+     * @param batch - De spritebatch
      * De draw methode tekent de instructie message en de huidige highscore op het scherm.
      */
     @Override

@@ -17,7 +17,10 @@ public class Ground extends GameWorldObstacle{
     }
 
     /**
-     * De update methode is overschreven zodat hier funtionaliteit aan toegevoegd kan worden. In ground object is namelijk in staat zijn positie zelf te resetten. 
+     * De update methode is overschreven zodat hier funtionaliteit aan toegevoegd kan worden. In ground object is namelijk in staat zijn positie zelf te resetten.
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
+     * @param timeElapsed - De tijd verstreken binnen de spel sessie in seconden
+     * @param worldSpeed - De huidige snelheid van de wereld
      */
     @Override
     public void update(float delta, float timeElapsed, float worldSpeed) {

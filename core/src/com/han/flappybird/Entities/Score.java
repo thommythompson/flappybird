@@ -26,15 +26,17 @@ public class Score{
         score++;
     }
 
+
     /**
      * Geeft de waarde van het score attribuut terug.
+     * @return int
      */
     public int getScore(){
         return score;
     }
 
     /**
-     * @param SpriteBatch batch
+     * @param batch - De spritebatch
      * Print de score op het scherm middels de fontgenerator.
      */
     public void draw(SpriteBatch batch){

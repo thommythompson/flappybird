@@ -67,7 +67,7 @@ public class TubeSet {
     }
 
     /**
-     * @param Vector2 birdPosition
+     * @param birdPosition - De huidige positie van de vogel als Vector2
      * @return boolean
      * Deze methode geeft eenmalig de waarde true terug wanneer deze door de als parameter meegegeven coordinaten gepasserd is. Deze methode word gebruikt om de score op te hogen wanneer de vogel een buis succesvol passeert.
      */
@@ -87,8 +87,8 @@ public class TubeSet {
     }
 
     /**
-     * @Return Array<TubeSet>
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde TubeSets.
+     * @return {Array&lt;TubeSet&gt;}
      */
     public static Array<TubeSet> getAllInstances(){
         return instances;

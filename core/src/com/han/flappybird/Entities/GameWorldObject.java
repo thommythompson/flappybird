@@ -33,13 +33,13 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @param float delta
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      * Abstract methode die de nieuwe staat van het object bepaald en wordt continue aangeroepen.
      */
     public abstract void update(float delta, float timeElapsed, float worldSpeed);
 
     /**
-     * @param SpriteBatch batch
+     * @param batch - De spritebatch
      * De draw methode tekent de waarde van het Texture attribuut op het scherm met de afmetingen en positie die opgeslagen zijn in het bounds attribuut.
      */
     public void draw(SpriteBatch batch){
@@ -47,7 +47,7 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @param Vector2 position
+     * @param position - De nieuwe positie van het object als Vector2
      * Zet de positie van het bounds attribuut.
      */
     public void setPosition(Vector2 position){
@@ -63,7 +63,7 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @param Vector2 position
+     * @param position - Vector2
      * Voegt de opgegeven x en y positie toe aan de huidige positie van het bounds attribuut.
      */
     public void addPosition(Vector2 position){
@@ -71,7 +71,7 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @param float delta
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
      * Beweegt het object naar links. De snelheid word bepaald door de delta time en de world speed.
      */
     public void moveToTheLeft(float delta, float worldSpeed){
@@ -79,7 +79,7 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @param Rectangle bounds
+     * @param bounds - Rectangle van mogelijk overlappend object
      * @return boolean
      * Geeft de waarde true terug indien de vierhoek opgegeven als parameter overlapt met de vierhoek uit het bounds attribuut van de instantie waar de methode van aangeroepen wordt.
      */
@@ -103,8 +103,8 @@ public abstract class GameWorldObject {
     }
 
     /**
-     * @Return Array<WorldObject>
      * Geeft een array terug gevuld met referenties naar alle geinstantieerde WorldObjecten.
+     * @return {Array&lt;GameWorldObject&gt;}
      */
     public static Array<GameWorldObject> getAllInstances(){
         return instances;

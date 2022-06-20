@@ -57,7 +57,7 @@ public class FlappyBird extends Game {
 	}
 
 	/**
-	 * @return Texture
+	 * @return int
 	 * Getter voor het highscore attribuut.
 	 */
 	public int getHighScore(){
@@ -65,8 +65,8 @@ public class FlappyBird extends Game {
 	}
 
 	/**
-	 * @return Texture
 	 * Overschrijft de huidige highscore met de opgegeven waarde.
+	 * @param newScore
 	 */
 	public void setHighScore(int newScore){
 		prefs.putInteger("highscore", newScore);

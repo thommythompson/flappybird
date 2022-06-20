@@ -41,8 +41,8 @@ public class GameWorld {
     }
 
     /**
-     * @param float delta
-     * @param boolean userInputDetected
+     * @param delta - De tijd verstreken vanaf de vorige aanroep in seconden
+     * @param userInputDetected - True indien gebruikersinvoer gedetecteert is
      * De update methode is verantwoordelijk voor het veranderen van de staat van de spelwereld. Aan de hand van de delta time en of er gebruikersinvoer gedetecteerd is zal deze de objecten in de spel wereld triggeren om zich te herpositioneren.
      */
     public void update(float delta, boolean userInputDetected){
@@ -70,7 +70,7 @@ public class GameWorld {
     }
 
     /**
-     * @param SpriteBatch batch
+     * @param batch - De spritebatch
      * De draw methode loopt door alle instanties van de WorldObject klasse en tekent deze op het scherm door de draw methode van de WorldObject klasse aan te roepen. Als laatste tekent deze ook de score op het scherm.
      */
     public void draw(SpriteBatch batch){
