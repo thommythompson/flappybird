@@ -1,6 +1,0 @@
-{
-    "javadoc-tools.generateJavadoc.targetFolder": "D:\\GITREPO\\flappybird\\javadoc",
-    "javadoc-tools.generateJavadoc.runMode": "-private",
-    "javadoc-tools.generateJavadoc.workspaceSourceFolder": "D:\\GITREPO\\flappybird\\core\\src\\com\\han\\flappybird",
-    "java.configuration.updateBuildConfiguration": "interactive"
-}
